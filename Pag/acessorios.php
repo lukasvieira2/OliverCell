@@ -1,41 +1,42 @@
+<?php
+session_start();
+
+// Verifica de forma rigorosa se a sessão do e-mail do usuário está ativa
+$usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario_email'])) ? true : false;
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oliver'CelL - Acessórios Premium</title>
-    <link rel="icon" href="../../imagens/logo.png" type="image/png">
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link rel="stylesheet" href="../../css/acessorios.css">
-    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../css/acessorios.css?v=3">
+    <link rel="stylesheet" href="../css/header.css?v=3">
 </head>
 <body>
 
     <header class="header">
         <div class="header-container">
-            <a href="../cliente.html" class="logo-link">
-                <img src="../../imagens/logo.png" alt="Logo" class="logo-img">
+            <a href="../index.php" class="logo-link">
+                <img src="../imagens/logo.png" alt="Logo" class="logo-img">
                 <span class="logo-text">Oliver'<span>CelL</span></span>
             </a>
         
             <nav class="nav-principal">
                 <ul class="menu-main">
-                    <li><a href="../cliente.html">Início</a></li>
-                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="../index.php">Início</a></li>
+                    <li><a href="serviços.html">Serviços</a></li>
                     <li><a href="contato.html">Contato</a></li>
-                     <li>
-                    <a href="../Perfil.php" class="btn-login">
-                        <i class="fas fa-user-circle"></i> PERFIL
-                    </a>
-                </li>
                     <li>
                         <a href="../carrinho.php" style="position: relative;">
                             <i class="fas fa-shopping-cart" style="color: #ffcc00; font-size: 18px;"></i>
                             <span id="cart-count" style="position: absolute; top: -10px; right: -12px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold;">0</span>
                         </a>
-                    </td>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -52,7 +53,7 @@
                 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/CaboCelularTipoC.jpg" alt="Cabo Tipo C">
+                        <img src="../imagens/CaboCelularTipoC.jpg" alt="Cabo Tipo C">
                     </div>
                     <h3>CABO TIPO-C PREMIUM</h3>
                     <p>Cabo de alta velocidade e durabilidade Masterdrive para conexões Tipo-C.</p>
@@ -64,7 +65,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/cabocelularlightning .png" alt="Cabo Lightning">
+                        <img src="../imagens/cabocelularlightning .png" alt="Cabo Lightning">
                     </div>
                     <h3>CABO LIGHTNING IPHONE</h3>
                     <p>Cabo Masterdrive premium ideal para carga rápida e segura no seu iPhone.</p>
@@ -76,7 +77,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/foneBranco.png" alt="Fone Branco">
+                        <img src="../imagens/foneBranco.png" alt="Fone Branco">
                     </div>
                     <h3>FONE ESTÉREO BRANCO</h3>
                     <p>Som Premium balanceado com super bass da Alpha Gold na cor branca.</p>
@@ -88,7 +89,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/fonePreto.png" alt="Fone Preto">
+                        <img src="../imagens/fonePreto.png" alt="Fone Preto">
                     </div>
                     <h3>FONE ESTÉREO PRETO</h3>
                     <p>Fone Alpha Gold de ouvido estéreo com excelente isolamento e graves profundos.</p>
@@ -100,7 +101,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/CarMountAirVentHolder.png" alt="Suporte Veicular">
+                        <img src="../imagens/CarMountAirVentHolder.png" alt="Suporte Veicular">
                     </div>
                     <h3>SUPORTE VEICULAR 360°</h3>
                     <p>Suporte Peining articulado com rotação completa para fixação estável no painel.</p>
@@ -112,7 +113,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/CA41.jpeg" alt="Carregador Inova CA41">
+                        <img src="../imagens/CA41.jpeg" alt="Carregador Inova CA41">
                     </div>
                     <h3>CARREGADOR INOVA CA41</h3>
                     <p>Carregador rápido e seguro de alta performance para o dia a dia.</p>
@@ -124,7 +125,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/FoneBluetooth.jpeg" alt="Fone Bluetooth Premium">
+                        <img src="../imagens/FoneBluetooth.jpeg" alt="Fone Bluetooth Premium">
                     </div>
                     <h3>FONE BLUETOOTH TWS</h3>
                     <p>Fone de ouvido sem fio de alta fidelidade com excelente autonomia de bateria.</p>
@@ -136,7 +137,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/Pei-185-3.jpeg" alt="Cabo Peining 3 em 1">
+                        <img src="../imagens/Pei-185-3.jpeg" alt="Cabo Peining 3 em 1">
                     </div>
                     <h3>CABO PEINING 3 EM 1</h3>
                     <p>Cabo multi-conector ultra resistente ideal para carregar múltiplos dispositivos.</p>
@@ -148,7 +149,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/RapidoCarregador.jpeg" alt="Carregador Turbo Rápido">
+                        <img src="../imagens/RapidoCarregador.jpeg" alt="Carregador Turbo Rápido">
                     </div>
                     <h3>CARREGADOR TURBO RÁPIDO</h3>
                     <p>Fonte de alta amperagem desenvolvida para carregamento inteligente e estável.</p>
@@ -160,7 +161,7 @@
 
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="../../imagens/USB-C 20W-PowerAdapter.jpeg" alt="Adaptador de Corrente 20W">
+                        <img src="../imagens/USB-C 20W-PowerAdapter.jpeg" alt="Adaptador de Corrente 20W">
                     </div>
                     <h3>FONTE USB-C 20W PREMIUM</h3>
                     <p>Adaptador de tomada turbo de 20W perfeito para carregamento rápido de iPhones.</p>
@@ -182,54 +183,69 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script>
-        function obterCarrinho() {
-            return JSON.parse(localStorage.getItem('oliver_cart')) || [];
+   <script>
+    // Injeta o valor do PHP direto como um booleano real no JavaScript
+    const usuarioEstaLogado = <?php echo $usuarioLogado ? 'true' : 'false'; ?>;
+
+    function obterCarrinho() {
+        return JSON.parse(localStorage.getItem('oliver_cart')) || [];
+    }
+
+    function atualizarContador() {
+        const carrinho = obterCarrinho();
+        const totalItens = carrinho.reduce((acc, item) => acc + item.qtd, 0);
+        const contador = document.getElementById('cart-count');
+        if(contador) {
+            contador.innerText = totalItens;
+        }
+    }
+
+    function adicionarAoCarrinho(nomeProduto) {
+        // Alerta no console para rastrearmos o valor real recebido pelo navegador
+        console.log("Status atual do login capturado:", usuarioEstaLogado);
+
+        // 🚨 BLOQUEIO OBRIGATÓRIO (Se for false, mata a execução na hora)
+        if (usuarioEstaLogado === false || usuarioEstaLogado === "false") {
+            alert("Você tem que fazer o login obrigatório para adicionar itens ao carrinho!");
+            // Pega dinamicamente http://localhost/OliverCell e joga para a pasta Clientes
+            window.location.href = window.location.origin + "/OliverCell/Clientes/Login.php";
+            return; 
         }
 
-        function atualizarContador() {
-            const carrinho = obterCarrinho();
-            const totalItens = carrinho.reduce((acc, item) => acc + item.qtd, 0);
-            const contador = document.getElementById('cart-count');
-            if(contador) {
-                contador.innerText = totalItens;
+        // Fluxo normal (Só roda se o IF lá de cima não for acionado)
+        let carrinho = obterCarrinho();
+        let produtoExistente = carrinho.find(item => item.nome.toUpperCase() === nomeProduto.toUpperCase());
+
+        let precoProduto = 0;
+        let imagemProduto = "";
+        
+        const cards = document.querySelectorAll('.card-produto');
+        cards.forEach(card => {
+            const titulo = card.querySelector('h3').innerText.trim();
+            if(titulo.toUpperCase() === nomeProduto.toUpperCase()) {
+                const precoTexto = card.querySelector('.preco').innerText;
+                precoProduto = parseFloat(precoTexto.replace('R$', '').replace('.', '').replace(',', '.').trim());
+                imagemProduto = card.querySelector('.img-container img').getAttribute('src');
             }
-        }
+        });
 
-        function adicionarAoCarrinho(nomeProduto) {
-            let carrinho = obterCarrinho();
-            let produtoExistente = carrinho.find(item => item.nome.toUpperCase() === nomeProduto.toUpperCase());
-
-            let precoProduto = 0;
-            let imagemProduto = "";
-            
-            const cards = document.querySelectorAll('.card-produto');
-            cards.forEach(card => {
-                const titulo = card.querySelector('h3').innerText.trim();
-                if(titulo.toUpperCase() === nomeProduto.toUpperCase()) {
-                    const precoTexto = card.querySelector('.preco').innerText;
-                    precoProduto = parseFloat(precoTexto.replace('R$', '').replace('.', '').replace(',', '.').trim());
-                    imagemProduto = card.querySelector('.img-container img').getAttribute('src');
-                }
+        if(produtoExistente) {
+            produtoExistente.qtd += 1;
+        } else {
+            carrinho.push({ 
+                nome: nomeProduto, 
+                qtd: 1, 
+                preco: precoProduto, 
+                imagem: imagemProduto 
             });
-
-            if(produtoExistente) {
-                produtoExistente.qtd += 1;
-            } else {
-                carrinho.push({ 
-                    nome: nomeProduto, 
-                    qtd: 1, 
-                    preco: precoProduto, 
-                    imagem: imagemProduto 
-                });
-            }
-
-            localStorage.setItem('oliver_cart', JSON.stringify(carrinho));
-            atualizarContador();
-            alert(`${nomeProduto} foi adicionado ao seu carrinho!`);
         }
 
+        localStorage.setItem('oliver_cart', JSON.stringify(carrinho));
         atualizarContador();
+        alert(`${nomeProduto} foi adicionado ao seu carrinho!`);
+    }
+
+    atualizarContador();
     </script>
 </body>
 </html>

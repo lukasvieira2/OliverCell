@@ -1,4 +1,6 @@
+
 /* BASE GERAL */
+
 * {
     margin: 0;
     padding: 0;
@@ -111,6 +113,8 @@ nav a:hover { color: #ffcc00; }
     text-transform: uppercase;
     animation: pulse 2s infinite;
 }
+/* Estilo do Botão de Login Dourado */
+
 
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.6); }

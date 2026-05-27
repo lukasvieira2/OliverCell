@@ -1,3 +1,21 @@
+<?php
+session_start();
+include_once('../config.php');
+
+// Pega o e-mail da sessão se o usuário estiver logado
+$emailUsuario = isset($_SESSION['usuario_email']) ? $_SESSION['usuario_email'] : '';
+$cliente_id = 0;
+
+if (!empty($emailUsuario)) {
+    // Busca o ID do cliente correspondente no banco
+    $query_usuario = "SELECT id FROM usuarios WHERE email = '$emailUsuario'";
+    $resultado_usuario = mysqli_query($conexao, $query_usuario);
+    if ($resultado_usuario && mysqli_num_rows($resultado_usuario) > 0) {
+        $dados_usuario = mysqli_fetch_assoc($resultado_usuario);
+        $cliente_id = $dados_usuario['id'];
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,7 +34,7 @@
 
     <header class="header">
         <div class="header-container">
-            <a href="carrinho.html" class="logo-link">
+            <a href="carrinho.php" class="logo-link">
                 <img src="../imagens/logo.png" alt="Logo" class="logo-img">
                 <span class="logo-text">Oliver'<span>CelL</span></span>
             </a>
@@ -34,6 +52,17 @@
             
             <div class="cart-summary" id="cart-summary-box" style="display:none; margin-top: 20px; padding: 20px; background: #050505; border: 1px solid #ffcc00; border-radius: 8px;">
                 
+                <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                    <div style="flex: 1; text-align: left;">
+                        <label for="cliente_nome" style="color: #fff; font-weight: bold; display: block; margin-bottom: 8px; font-size: 0.95rem;">Nome:</label>
+                        <input type="text" id="cliente_nome" placeholder="Seu nome" style="width: 100%; padding: 10px; background: #111; color: #fff; border: 1px solid #333; border-radius: 4px; font-family: inherit;">
+                    </div>
+                    <div style="flex: 1; text-align: left;">
+                        <label for="cliente_sobrenome" style="color: #fff; font-weight: bold; display: block; margin-bottom: 8px; font-size: 0.95rem;">Sobrenome:</label>
+                        <input type="text" id="cliente_sobrenome" placeholder="Seu sobrenome" style="width: 100%; padding: 10px; background: #111; color: #fff; border: 1px solid #333; border-radius: 4px; font-family: inherit;">
+                    </div>
+                </div>
+
                 <div style="margin-bottom: 20px; text-align: left;">
                     <label for="forma_pagamento" style="color: #fff; font-weight: bold; display: block; margin-bottom: 8px; font-size: 0.95rem;">Escolha a Forma de Pagamento:</label>
                     <select id="forma_pagamento" style="width: 100%; padding: 10px; background: #111; color: #fff; border: 1px solid #333; border-radius: 4px; font-family: inherit;">
@@ -63,6 +92,8 @@
     </footer>
 
     <script>
+        const clienteIdLogado = <?php echo intval($cliente_id); ?>;
+
         function obterCarrinho() {
             return JSON.parse(localStorage.getItem('oliver_cart')) || [];
         }
@@ -162,25 +193,41 @@
             const carrinho = obterCarrinho();
             if(carrinho.length === 0) return;
 
+            if(clienteIdLogado === 0) {
+                alert('Atenção: Você precisa estar logado para processar o pedido no seu perfil.');
+                return;
+            }
+
+            // Resgata e valida o nome e sobrenome informados
+            const nomeCliente = document.getElementById('cliente_nome').value.trim();
+            const sobrenomeCliente = document.getElementById('cliente_sobrenome').value.trim();
             const formaPagamento = document.getElementById('forma_pagamento').value;
 
-            // 1. Envia os dados via fetch em segundo plano para salvar no MySQL antes do WhatsApp
+            if (nomeCliente === "" || sobrenomeCliente === "") {
+                alert("Por favor, preencha o seu Nome e Sobrenome antes de finalizar.");
+                return;
+            }
+
             fetch('../Php/salvar_pedido.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    cliente_id: clienteIdLogado,
                     carrinho: carrinho,
-                    forma_pagamento: formaPagamento
+                    forma_pagamento: formaPagamento,
+                    nome_cliente: nomeCliente, // Enviando se precisar salvar no BD
+                    sobrenome_cliente: sobrenomeCliente
                 })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.sucesso) {
-                    // Se salvou no banco com sucesso, gera a mensagem e abre o WhatsApp
                     let totalGeral = 0;
-                    let mensagem = `Olá Oliver'CelL! Gostaria de encomendar (Pedido Nº #${data.pedido_id}):\n\n`;
+                    // Adicionado o nome do cliente no topo da mensagem
+                    let mensagem = `Olá Oliver'CelL! Meu nome é *${nomeCliente} ${sobrenomeCliente}*.\n`;
+                    mensagem += `Gostaria de encomendar (Pedido Nº #${data.pedido_id}):\n\n`;
                     
                     carrinho.forEach(item => {
                         const precoUnitario = item.preco || 0;
@@ -195,7 +242,6 @@
                     mensagem += `*Total do Pedido:* ${totalGeral.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}\n\n`;
                     mensagem += "Por favor, confirmem a disponibilidade para retirada!";
 
-                    // Limpa o localStorage local já que o pedido virou definitivo
                     localStorage.removeItem('oliver_cart');
                     renderizarCarrinho();
 

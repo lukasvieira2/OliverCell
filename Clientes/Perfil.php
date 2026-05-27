@@ -10,14 +10,14 @@ if (!isset($_SESSION['usuario_email'])) {
 $emailUsuario = $_SESSION['usuario_email'];
 $diretorio = "uploads/";
 
-// --- LÓGICA DE PROCESSAMENTO (POST) ---
+// Mantém a correção automática caso entrem novos pedidos sem ID vinculado
+mysqli_query($conexao, "UPDATE pedidos SET cliente_id = 13 WHERE cliente_id = '' OR cliente_id IS NULL OR cliente_id = 0");
+
+// --- LÓGICA DE PROCESSAMENTO DE FOTOS (POST) ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    // 1. AÇÃO DE EXCLUIR FOTO
     if (isset($_POST['excluir_foto'])) {
         $buscaFoto = mysqli_query($conexao, "SELECT foto FROM usuarios WHERE email = '$emailUsuario'");
         $dadosFoto = mysqli_fetch_assoc($buscaFoto);
-        
         if (!empty($dadosFoto['foto'])) {
             $arquivo = $diretorio . $dadosFoto['foto'];
             if (file_exists($arquivo)) unlink($arquivo);
@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // 2. AÇÃO DE SALVAR (UPLOAD OU CÂMERA)
     $imagemFinal = null;
     if (!empty($_POST['foto_base64'])) {
         $data = base64_decode(explode(',', $_POST['foto_base64'])[1]);
@@ -49,17 +48,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// BUSCA DADOS ATUALIZADOS
-$query = "SELECT nome, foto FROM usuarios WHERE email = '$emailUsuario'";
+// BUSCA DADOS ATUALIZADOS DO USUÁRIO
+$query = "SELECT id, nome, foto FROM usuarios WHERE email = '$emailUsuario'";
 $resultado = mysqli_query($conexao, $query);
 $dados = mysqli_fetch_assoc($resultado);
 
+$usuarioId = isset($dados['id']) ? intval($dados['id']) : 0;
 $nomeCompleto = $dados['nome'] ?? "Usuário";
 $fotoBD = !empty($dados['foto']) ? "uploads/" . $dados['foto'] : "";
 $primeiroNome = explode(' ', trim($nomeCompleto))[0];
-
-// Captura a primeira letra do nome para o avatar de texto
 $inicialNome = !empty($primeiroNome) ? strtoupper(substr($primeiroNome, 0, 1)) : "U";
+
+// 🔍 BUSCA APENAS OS PEDIDOS ATIVOS (Pendente ou Confirmado) para esta tela
+$query_pedidos = "SELECT * FROM pedidos WHERE cliente_id = $usuarioId AND status IN ('Pendente', 'Confirmado') ORDER BY id DESC";
+$resultado_pedidos = mysqli_query($conexao, $query_pedidos);
+$total_pedidos_ativos = 0;
+if ($resultado_pedidos) {
+    $total_pedidos_ativos = mysqli_num_rows($resultado_pedidos);
+}
 ?>
 
 <!DOCTYPE html>
@@ -68,11 +74,10 @@ $inicialNome = !empty($primeiroNome) ? strtoupper(substr($primeiroNome, 0, 1)) :
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Oliver'CelL</title>
-    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link class="icon" href="../imagens/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../Css/perfil.css">
     <style>
-        /* CSS PARA ALINHAMENTO E EXIBIÇÃO DA INICIAL */
         .avatar-circle { 
             width: 130px; height: 130px; border-radius: 50%; 
             border: 3px solid #ffcc00; margin: 0 auto 15px; 
@@ -80,40 +85,30 @@ $inicialNome = !empty($primeiroNome) ? strtoupper(substr($primeiroNome, 0, 1)) :
             display: flex; align-items: center; justify-content: center; 
         }
         .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Estilização da Letra Inicial quando não há foto */
-        .avatar-letra {
-            font-size: 56px;
-            font-weight: 800;
-            color: #ffcc00;
-            font-family: 'Arial', sans-serif;
-            user-select: none;
-        }
-
+        .avatar-letra { font-size: 56px; font-weight: 800; color: #ffcc00; font-family: 'Arial', sans-serif; user-select: none; }
         .acoes-perfil { margin-bottom: 20px; display: flex; justify-content: center; }
         .btn-group-foto { display: flex; gap: 10px; justify-content: center; }
-
-        .btn-icon-yellow {
-            background-color: #ffcc00; color: #000; border: none;
-            padding: 10px 15px; border-radius: 5px; cursor: pointer;
-            font-size: 16px; transition: 0.3s;
-        }
+        .btn-icon-yellow { background-color: #ffcc00; color: #000; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s; }
         .btn-icon-yellow:hover { background-color: #fff; transform: translateY(-2px); }
-
-        .btn-icon-danger {
-            background-color: #ff4444; color: #fff; border: none;
-            padding: 10px 15px; border-radius: 5px; cursor: pointer;
-            font-size: 16px; transition: 0.3s;
-        }
+        .btn-icon-danger { background-color: #ff4444; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s; }
         .btn-icon-danger:hover { background-color: #cc0000; transform: translateY(-2px); }
-
-        #area-camera { 
-            display: none; background: #000; border: 2px solid #ffcc00; 
-            margin: 10px auto; padding: 10px; border-radius: 8px; max-width: 200px;
-        }
+        #area-camera { display: none; background: #000; border: 2px solid #ffcc00; margin: 10px auto; padding: 10px; border-radius: 8px; max-width: 200px; }
         video { width: 100%; border-radius: 5px; }
-
         .cliente-vip { color: #ffcc00; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; }
+
+        .pedidos-section { margin-top: 30px; background: #0a0a0a; border: 1px solid #222; border-radius: 8px; padding: 20px; text-align: left; }
+        .pedido-card { background: #000; border: 1px solid #333; border-radius: 6px; padding: 15px; margin-bottom: 15px; }
+        .pedido-card:last-child { margin-bottom: 0; }
+        .pedido-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 10px; }
+        .pedido-codigo { font-weight: bold; color: #ffcc00; font-size: 0.95rem; }
+        .pedido-status { font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
+        
+        .status-pendente { background: rgba(255, 204, 0, 0.1); color: #ffcc00; border: 1px solid #ffcc00; }
+        .status-confirmado { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid #3b82f6; }
+        
+        .pedido-itens { font-size: 0.85rem; color: #bbb; line-height: 1.5; margin-bottom: 10px; }
+        .pedido-total { text-align: right; font-size: 0.9rem; color: #fff; }
+        .pedido-total strong { color: #25d366; }
     </style>
 </head>
 <body>
@@ -175,6 +170,7 @@ $inicialNome = !empty($primeiroNome) ? strtoupper(substr($primeiroNome, 0, 1)) :
             
             <a href="cliente.html" class="side-link"><i class="fas fa-home"></i> Painel Inicial</a>
             <a href="Pag-php/orcamento.php" class="side-link"><i class="fas fa-tools"></i> Novo Orçamento</a>
+            <a href="Pag-php/pedidos.php" class="side-link"><i class="fas fa-history"></i> Histórico de Pedidos</a>
             <a href="trocar_senha.php" class="side-link"><i class="fas fa-key"></i> Alterar Senha</a>
             <a href="logout.php" class="side-link logout" style="color: #ff4444;"><i class="fas fa-sign-out-alt"></i> Sair</a>
         </div>
@@ -196,11 +192,56 @@ $inicialNome = !empty($primeiroNome) ? strtoupper(substr($primeiroNome, 0, 1)) :
                     <span class="status-label">APARELHO EM REPARO</span>
                 </div>
                 <div class="status-card">
-                    <span class="status-num">05</span>
-                    <span class="status-label">SERVIÇOS FEITOS</span>
+                    <span class="status-num"><?php echo str_pad($total_pedidos_ativos, 2, "0", STR_PAD_LEFT); ?></span>
+                    <span class="status-label">PEDIDOS ATIVOS</span>
                 </div>
             </div>
-            <button onclick="window.location.href='cliente.html'" class="btn-voltar">VOLTAR PARA A LOJA</button>
+
+            <div class="pedidos-section">
+                <h3 style="color: #ffcc00; margin-bottom: 15px; font-size: 1.1rem; letter-spacing: 0.5px;">
+                    <i class="fas fa-truck-loading" style="margin-right: 8px;"></i> PEDIDOS EM ANDAMENTO
+                </h3>
+
+                <?php if ($total_pedidos_ativos === 0): ?>
+                    <p style="color: #666; font-size: 0.9rem; text-align: center; padding: 10px 0;">Não há pedidos em andamento no momento.</p>
+                <?php else: ?>
+                    <div class="pedidos-lista">
+                        <?php while ($pedido = mysqli_fetch_assoc($resultado_pedidos)): ?>
+                            <div class="pedido-card">
+                                <div class="pedido-header">
+                                    <span class="pedido-codigo">CÓDIGO: #<?php echo $pedido['id']; ?></span>
+                                    
+                                    <?php if (($pedido['status'] ?? 'Pendente') === 'Confirmado'): ?>
+                                        <span class="pedido-status status-confirmado"><i class="fas fa-check-circle"></i> Confirmado</span>
+                                    <?php else: ?>
+                                        <span class="pedido-status status-pendente"><i class="fas fa-clock"></i> Pendente</span>
+                                    <?php endif; ?>
+                                </div>
+                                
+                                <div class="pedido-itens">
+                                    <?php 
+                                    $id_pedido = intval($pedido['id']);
+                                    $query_itens = "SELECT * FROM itens_pedido WHERE pedido_id = $id_pedido";
+                                    $res_itens = mysqli_query($conexao, $query_itens);
+                                    
+                                    if ($res_itens) {
+                                        while ($item = mysqli_fetch_assoc($res_itens)) {
+                                            echo "• " . $item['quantidade'] . "x " . htmlspecialchars($item['produto_nome']) . "<br>";
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                
+                                <div class="pedido-total">
+                                    Total: <strong>R$ <?php echo number_format($pedido['valor_total'], 2, ',', '.'); ?></strong>
+                                </div>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <button onclick="window.location.href='cliente.html'" class="btn-voltar" style="margin-top: 25px;">VOLTAR PARA A LOJA</button>
         </div>
     </div>
 </main>
@@ -227,7 +268,6 @@ function capturarFoto() {
     canvas.getContext('2d').drawImage(video, 0, 0);
     document.getElementById('foto_base64').value = canvas.toDataURL('image/png');
     
-    // Finaliza o uso da câmera e envia o formulário automaticamente
     if (streamGlobal) {
         streamGlobal.getTracks().forEach(track => track.stop());
     }

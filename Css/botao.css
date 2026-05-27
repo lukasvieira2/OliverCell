@@ -1,0 +1,13 @@
+.btn-login {
+    background-color: #ffcc00 !important; /* Cor Dourada */
+    color: #000 !important;             /* Texto Preto para contraste */
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid #ffcc00;
+}

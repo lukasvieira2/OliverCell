@@ -7,17 +7,26 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
-// Inclusão da conexão com o banco (subindo um nível a mais por estar dentro de pagADM)
+// Inclusão da conexão com o banco
 include_once('../../config.php');
 
 // ==========================================================================
-// PROCESSAMENTO DA CONFIRMAÇÃO DO PEDIDO (Alterar Status)
+// PROCESSAMENTO DAS ALTERAÇÕES DE STATUS (Confirmar ou Concluir)
 // ==========================================================================
-if (isset($_GET['confirmar_id'])) {
-    $id_pedido_confirmar = (int)$_GET['confirmar_id'];
-    $query_update = "UPDATE pedidos SET status = 'Confirmado' WHERE id = $id_pedido_confirmar";
-    mysqli_query($conexao, $query_update);
-    header("Location: pedidos.html.php?pagina=" . ($_GET['pagina'] ?? 1));
+if (isset($_GET['acao']) && isset($_GET['id'])) {
+    $id_pedido = (int)$_GET['id'];
+    $acao = $_GET['acao'];
+    $pagina_retorno = (int)($_GET['pagina'] ?? 1);
+
+    if ($acao === 'confirmar') {
+        $query_update = "UPDATE pedidos SET status = 'Confirmado' WHERE id = $id_pedido";
+        mysqli_query($conexao, $query_update);
+    } elseif ($acao === 'concluir') {
+        $query_update = "UPDATE pedidos SET status = 'Entregue' WHERE id = $id_pedido";
+        mysqli_query($conexao, $query_update);
+    }
+
+    header("Location: pedidos.php?pagina=" . $pagina_retorno);
     exit();
 }
 
@@ -38,7 +47,7 @@ if ($res_total = mysqli_query($conexao, $query_total)) {
 }
 $total_paginas = ceil($total_pedidos / $limite);
 
-// QUERY DOS PEDIDOS: Busca os dados principais do pedido
+// QUERY DOS PEDIDOS: Busca os dados puros da tabela pedidos (evita erros de coluna)
 $query_pedidos = "SELECT * FROM pedidos ORDER BY id DESC LIMIT $limite OFFSET $offset";
 
 try {
@@ -119,30 +128,72 @@ try {
                         </div>
                     <?php else: ?>
                         <?php while ($pedido = mysqli_fetch_assoc($resultado_pedidos)): ?>
+                            
+                            <?php 
+                            // Buscando os itens e o nome do cliente que está guardado dentro de 'itens_pedido'
+                            $id_pedido_atual = $pedido['id'];
+                            $query_itens = "SELECT * FROM itens_pedido WHERE pedido_id = $id_pedido_atual";
+                            $resultado_itens = mysqli_query($conexao, $query_itens);
+                            
+                            // Variável para armazenar o nome temporariamente
+                            $nome_cliente_detectado = 'Cliente não informado';
+                            $itens_array = [];
+                            
+                            if ($resultado_itens && mysqli_num_rows($resultado_itens) > 0) {
+                                while ($item_row = mysqli_fetch_assoc($resultado_itens)) {
+                                    $itens_array[] = $item_row;
+                                    // Captura o nome do cliente presente no primeiro item encontrado
+                                    if (!empty($item_row['nome_cliente'])) {
+                                        $nome_cliente_detectado = trim($item_row['nome_cliente'] . ' ' . ($item_row['sobrenome_cliente'] ?? ''));
+                                    }
+                                }
+                            }
+                            ?>
+
                             <div class="bg-zinc-950 border border-zinc-800 rounded-xl p-6 shadow-md hover:border-amber-500/40 transition-all">
                                 
                                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-zinc-800 pb-4 mb-4 gap-4">
                                     <div>
                                         <span class="text-xs font-bold uppercase tracking-wider text-amber-500">Pedido nº #<?php echo $pedido['id']; ?></span>
-                                        <div class="text-sm text-zinc-400 mt-0.5">
+                                        
+                                        <div class="text-base font-semibold text-white mt-1">
+                                            <i class="fas fa-user text-amber-500 text-sm mr-1"></i> 
+                                            <?php echo htmlspecialchars($nome_cliente_detectado); ?>
+                                        </div>
+
+                                        <div class="text-sm text-zinc-400 mt-1">
                                             Forma de Pagamento: <span class="text-white font-medium"><?php echo htmlspecialchars($pedido['forma_pagamento'] ?? 'Não informada'); ?></span>
                                         </div>
                                     </div>
                                     
-                                    <div class="flex items-center gap-4">
-                                        <?php if (($pedido['status'] ?? 'Pendente') === 'Confirmado'): ?>
-                                            <span class="px-3 py-1 bg-green-500/10 border border-green-500 text-green-400 text-xs font-bold rounded-full">
-                                                <i class="fas fa-check-circle mr-1"></i> Confirmado
-                                            </span>
-                                        <?php else: ?>
+                                    <div class="flex items-center gap-3">
+                                        <?php 
+                                        $status_atual = $pedido['status'] ?? 'Pendente';
+                                        if ($status_atual === 'Pendente'): 
+                                        ?>
                                             <span class="px-3 py-1 bg-amber-500/10 border border-amber-500 text-amber-400 text-xs font-bold rounded-full animate-pulse">
                                                 <i class="fas fa-clock mr-1"></i> Pendente
                                             </span>
-                                            <a href="pedidos.html.php?confirmar_id=<?php echo $pedido['id']; ?>&pagina=<?php echo $pagina_atual; ?>" 
+                                            <a href="pedidos.php?acao=confirmar&id=<?php echo $pedido['id']; ?>&pagina=<?php echo $pagina_atual; ?>" 
                                                class="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-black text-xs font-bold rounded transition-all flex items-center gap-1"
                                                onclick="return confirm('Deseja marcar o Pedido #<?php echo $pedido['id']; ?> como Confirmado?')">
                                                 <i class="fas fa-check"></i> Confirmar Pedido
                                             </a>
+
+                                        <?php elseif ($status_atual === 'Confirmado'): ?>
+                                            <span class="px-3 py-1 bg-blue-500/10 border border-blue-500 text-blue-400 text-xs font-bold rounded-full">
+                                                <i class="fas fa-check-circle mr-1"></i> Confirmado
+                                            </span>
+                                            <a href="pedidos.php?acao=concluir&id=<?php echo $pedido['id']; ?>&pagina=<?php echo $pagina_atual; ?>" 
+                                               class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded transition-all flex items-center gap-1"
+                                               onclick="return confirm('Confirmar entrega pessoal para o Pedido #<?php echo $pedido['id']; ?>? Ele sumirá do perfil do cliente.')">
+                                                <i class="fas fa-handshake"></i> Concluir Entrega
+                                            </a>
+
+                                        <?php elseif ($status_atual === 'Entregue'): ?>
+                                            <span class="px-3 py-1 bg-green-500/20 border border-green-500 text-green-400 text-xs font-bold rounded-full">
+                                                <i class="fas fa-clipboard-check mr-1"></i> Entregue Pessoalmente
+                                            </span>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -151,13 +202,8 @@ try {
                                     <div class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Itens do Pedido:</div>
                                     <div class="space-y-2">
                                         <?php 
-                                        // Executa uma sub-query para buscar todos os produtos vinculados a esse ID de pedido
-                                        $id_pedido_atual = $pedido['id'];
-                                        $query_itens = "SELECT * FROM itens_pedido WHERE pedido_id = $id_pedido_atual";
-                                        $resultado_itens = mysqli_query($conexao, $query_itens);
-                                        
-                                        if ($resultado_itens && mysqli_num_rows($resultado_itens) > 0): 
-                                            while ($item = mysqli_fetch_assoc($resultado_itens)):
+                                        if (count($itens_array) > 0): 
+                                            foreach ($itens_array as $item):
                                                 $subtotal = $item['quantidade'] * $item['preco_unitario'];
                                         ?>
                                                 <div class="flex justify-between items-center text-sm border-b border-zinc-800/30 pb-2 last:border-0 last:pb-0">
@@ -171,7 +217,7 @@ try {
                                                     </div>
                                                 </div>
                                         <?php 
-                                            endwhile;
+                                            endforeach;
                                         else: 
                                         ?>
                                             <span class="text-xs text-red-400">Nenhum produto listado para este pedido.</span>
@@ -184,7 +230,7 @@ try {
                                     <strong class="text-lg text-green-400 ml-2">R$ <?php echo number_format($pedido['valor_total'], 2, ',', '.'); ?></strong>
                                 </div>
 
-                            </div>
+                             </div>
                         <?php endwhile; ?>
                     <?php endif; ?>
 
@@ -193,7 +239,7 @@ try {
                 <?php if ($total_paginas > 1): ?>
                     <div class="flex justify-center items-center mt-8 space-x-2">
                         <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
-                            <a href="pedidos.html.php?pagina=<?php echo $i; ?>" 
+                            <a href="pedidos.php?pagina=<?php echo $i; ?>" 
                                class="px-4 py-2 rounded font-bold transition-all text-sm <?php echo $i === $pagina_atual ? 'bg-amber-500 text-black' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'; ?>">
                                 <?php echo $i; ?>
                             </a>

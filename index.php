@@ -19,7 +19,7 @@
             <ul>
                 <li><a href="index.html" style="color: #ffcc00;">Início</a></li>
                 <li><a href="Pag/serviços.html">Serviços</a></li>
-                <li><a href="Pag/acessorios.html">Acessórios</a></li>
+                <li><a href="Pag/acessorios.php">Acessórios</a></li>
                 <li><a href="Pag/contato.html">Contato</a></li>
                 <li><a href="Clientes/Login.php" class="btn-login"><i class="fas fa-user"></i> Login
     </a>
