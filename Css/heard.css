@@ -1,0 +1,64 @@
+/* ==========================================================================
+   2. HEADER E NAVEGAÇÃO (LOGO NA ESQUERDA E MENU NA DIREITA)
+   ========================================================================== */
+.header {
+    background-color: #000000;
+    border-bottom: 1.5px solid #ffcc00;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Faz o contêiner ocupar quase toda a tela, gerando o efeito dos cantos */
+.header-container {
+    width: 100%;
+    max-width: 95%; /* Define uma largura máxima confortável para monitores grandes */
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /* Mágica: Empurra a logo para a esquerda e o menu para a direita */
+    align-items: center;
+    padding: 0 10px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.logo-img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo-text span {
+    color: #ffcc00;
+}
+
+.nav-principal .menu-main {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    align-items: center;
+}
+
+.nav-principal .menu-main > li > a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.nav-principal .menu-main > li > a:hover,
+.nav-principal .menu-main > li > a.active {
+    color: #ffcc00;
+}

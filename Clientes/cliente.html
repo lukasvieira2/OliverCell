@@ -30,18 +30,25 @@ $nomeCompleto = $_SESSION['usuario_nome'];
 
 <header class="header">
     <div class="header-container">
-        <a href="cliente.php" class="logo-link">
+        <a href="cliente.html" class="logo-link">
             <img src="../imagens/logo.png" alt="Logo" class="logo-img">
-            <span class="logo-text">Oliver'<span>CelL</span></span>
+            <span class="logo-text">Oliver'<span>Cell</span></span>
         </a>
-        <nav>
-            <ul>
-                <li><a href="cliente.html" style="color: #ffcc00;">Início</a></li>
+    
+        <nav class="nav-principal">
+            <ul class="menu-main">
+                <li><a href="cliente.html" class="active">Início</a></li>
                 <li><a href="Pag-php/serviços.html">Serviços</a></li>
-                <li><a href="Pag-php/acessorios.html">acessorios</a></li>  
-                <li><a href="Perfil.php" class="btn-login"><i class="fas fa-user-circle"></i> PERFIL</a></li>
+                <li><a href="Pag-php/acessorios.html">Acessórios</a></li>
+                <li><a href="Pag-php/contato.html">Contato</a></li>
                 
+                <li>
+                    <a href="Perfil.php" class="btn-login">
+                        <i class="fas fa-user-circle"></i> PERFIL
+                    </a>
+                </li>
                 
+                <li>
                     <a href="../index.php" title="Sair" style="color: #ff4444; margin-left: 15px;">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>

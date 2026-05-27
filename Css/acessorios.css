@@ -1,4 +1,6 @@
-/* Geral e Reset */
+/* ==========================================================================
+   1. GERAL E RESET
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +13,9 @@ body {
     font-family: 'Montserrat', Arial, sans-serif;
 }
 
-/* Header & Navegação */
+/* ==========================================================================
+   2. HEADER E NAVEGAÇÃO (LOGO NA ESQUERDA E MENU NA DIREITA)
+   ========================================================================== */
 .header {
     background-color: #000000;
     border-bottom: 1.5px solid #ffcc00;
@@ -21,17 +25,19 @@ body {
     width: 100%;
     z-index: 1000;
     padding: 15px 0;
+    display: flex;
+    justify-content: center;
 }
 
-/* Alinhamento esticado de borda a borda nas laterais da tela */
+/* Faz o contêiner ocupar quase toda a tela, gerando o efeito dos cantos */
 .header-container {
-    max-width: 100%;       /* Alterado para ocupar toda a largura da tela */
     width: 100%;
-    margin: 0;             /* Removido o auto para não centralizar o bloco */
+    max-width: 95%; /* Define uma largura máxima confortável para monitores grandes */
+    margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Mágica: Empurra a logo para a esquerda e o menu para a direita */
     align-items: center;
-    padding: 0 40px;       /* Folga elegante de 40px para os elementos não colarem no vidro do monitor */
+    padding: 0 10px;
 }
 
 .logo-link {
@@ -52,7 +58,6 @@ body {
     color: #ffcc00;
 }
 
-/* Menu e Listas */
 .nav-principal .menu-main {
     display: flex;
     list-style: none;
@@ -73,7 +78,13 @@ body {
     color: #ffcc00;
 }
 
-/* Seção de Título */
+/* ==========================================================================
+   3. SEÇÃO DE TÍTULO
+   ========================================================================== */
+.main-content {
+    width: 100%;
+}
+
 .premium-title-section {
     text-align: center;
     margin-top: 130px;
@@ -95,7 +106,9 @@ body {
     margin-top: 5px;
 }
 
-/* Container de Conteúdo e Grid de Produtos */
+/* ==========================================================================
+   4. GRID E CARDS DE PRODUTOS
+   ========================================================================== */
 .products-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -110,7 +123,6 @@ body {
     width: 100%;
 }
 
-/* Card Individual de Produto Estilo Premium */
 .card-produto {
     background-color: #000000;
     border: 1.5px solid #ffcc00;
@@ -162,7 +174,6 @@ body {
     flex-grow: 1;
 }
 
-/* Botão Compacto Centralizado */
 .card-produto button {
     display: block;
     width: 85%;
@@ -189,7 +200,9 @@ body {
     transform: scale(0.98);
 }
 
-/* WhatsApp Flutuante */
+/* ==========================================================================
+   5. COMPONENTES EXTRA (WHATSAPP E FOOTER)
+   ========================================================================== */
 .whatsapp-float {
     position: fixed;
     bottom: 20px;
@@ -208,7 +221,6 @@ body {
     text-decoration: none;
 }
 
-/* Rodapé */
 footer {
     text-align: center;
     padding: 25px 0;
