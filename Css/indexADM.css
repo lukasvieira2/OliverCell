@@ -1,0 +1,120 @@
+/* ==========================================================================
+   indexADM.css - Estilização Personalizada do Painel Oliver'CelL
+   ========================================================================== */
+
+/* Configurações Gerais do Fundo e Textos */
+body.oliver-painel {
+    background-color: #000000 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Elementos Principais com Fundo Preto Profundo */
+.bg-oliver-dark {
+    background-color: #09090b !important; /* Zinc 950 */
+}
+
+/* Customização das Bordas Douradas da Marca */
+.border-oliver-gold {
+    border-color: rgba(217, 119, 6, 0.45) !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.border-oliver-gold:hover {
+    border-color: #f59e0b !important;
+    box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.2);
+}
+
+/* Cores de Texto Específicas */
+.text-oliver-gold {
+    color: #f59e0b !important;
+}
+
+.text-oliver-light {
+    color: #ffffff !important;
+}
+
+.text-oliver-muted {
+    color: #a1a1aa !important;
+}
+
+/* ==========================================================================
+   NOVA CONFIGURAÇÃO: CARDS EM DOURADO OLIVER'CELL
+   ========================================================================== */
+.bg-oliver-card-gold {
+    background-color: #f59e0b !important; /* Fundo Dourado Marcante */
+}
+
+/* Texto dos títulos secundários dentro do card dourado */
+.text-oliver-title-gold-dark {
+    color: #451a03 !important; /* Tom marrom bem escuro (Amber 950) para leitura limpa */
+    opacity: 0.85;
+}
+
+/* Números principais de destaque dentro do card dourado */
+.text-oliver-number-dark {
+    color: #000000 !important; /* Preto puro para contraste máximo */
+}
+
+/* ==========================================================================
+   Botões e Menu Lateral (Sidebar)
+   ========================================================================== */
+.btn-oliver-gold {
+    background-color: #f59e0b !important;
+    color: #000000 !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-oliver-gold:hover {
+    background-color: #d97706 !important;
+    transform: translateY(-1px);
+}
+
+.nav-link-oliver {
+    color: #d4d4d8 !important;
+    transition: all 0.2s ease;
+}
+
+.nav-link-oliver:hover {
+    background-color: #09090b !important;
+    color: #f59e0b !important;
+}
+
+.nav-link-active {
+    background-color: #f59e0b !important;
+    color: #000000 !important;
+    font-weight: 600 !important;
+}
+
+/* ==========================================================================
+   ÁREA DA TABELA: CORPO BRANCO
+   ========================================================================== */
+.table-header-oliver {
+    background-color: #09090b !important;
+    color: #f59e0b !important;
+    border-bottom: 2px solid #f59e0b !important;
+}
+
+.table-body-white {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+}
+
+.table-row-oliver {
+    border-bottom: 1px solid #e5e7eb !important;
+    transition: background-color 0.2s ease;
+}
+
+.table-row-oliver:hover {
+    background-color: #f3f4f6 !important;
+}
+
+.table-body-white .text-id-gold {
+    color: #b45309 !important;
+    font-weight: 600;
+}
+
+.table-body-white .text-cliente-dark {
+    color: #111827 !important;
+    font-weight: 600;
+}

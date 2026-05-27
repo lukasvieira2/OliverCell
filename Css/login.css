@@ -1,0 +1,211 @@
+/* --- CONFIGURAÇÕES GERAIS --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #0b0b0b;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- HEADER CENTRALIZADO --- */
+.header {
+    background: #000;
+    padding: 20px 0;
+    border-bottom: 2px solid #ffcc00;
+    width: 100%;
+}
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 15px;
+}
+
+.logo-img {
+    height: 60px;
+}
+
+.logo-text {
+    font-size: 2.2rem;
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.logo-text span {
+    color: #fff;
+}
+
+/* --- CONTAINER DE LOGIN (AMPLIADO E RETO) --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.auth-container {
+    display: flex;
+    background: #000;
+    width: 100%;
+    max-width: 1100px; /* Largura ampliada */
+    min-height: 550px;
+    border: 2px solid #ffcc00;
+    border-radius: 2px; /* BORDAS RETAS */
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(255, 204, 0, 0.2);
+}
+
+/* LADO ESQUERDO (INFO) */
+.info-side {
+    flex: 1;
+    background: linear-gradient(135deg, #000 0%, #111 100%);
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    border-right: 2px solid #ffcc00;
+}
+
+.info-side h3 {
+    font-size: 2rem;
+    color: #ffcc00;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.info-side p {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+/* LADO DIREITO (FORMULÁRIO) */
+.form-side {
+    flex: 1.4;
+    padding: 50px;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-title {
+    font-size: 2.5rem;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.form-subtitle {
+    color: #ffcc00;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 35px;
+    font-size: 0.9rem;
+}
+
+/* --- INPUTS E BOTÕES RETOS --- */
+.form-input {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 15px;
+    background: #0a0a0a;
+    border: 1px solid #333;
+    border-radius: 2px; /* QUINAS RETAS */
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: #ffcc00;
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px; /* Espaço entre botões */
+    margin-top: 10px;
+}
+
+.auth-btn {
+    flex: 1;
+    padding: 18px;
+    background: #ffcc00;
+    color: #000;
+    border: none;
+    border-radius: 2px; /* QUINAS RETAS */
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.auth-btn:hover {
+    background: #fff;
+}
+
+/* BOTÃO CANCELAR VERMELHO */
+.btn-cancel {
+    background: #cc0000;
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background: #ff3333;
+}
+
+/* BOTÃO DE TROCA (INFO SIDE) */
+.toggle-btn {
+    background: transparent;
+    border: 2px solid #ffcc00;
+    color: #ffcc00;
+    padding: 14px 30px;
+    border-radius: 2px; /* QUINAS RETAS */
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.toggle-btn:hover {
+    background: #ffcc00;
+    color: #000;
+}
+
+/* --- FOOTER --- */
+footer {
+    padding: 25px 0;
+    background: #000;
+    text-align: center;
+    border-top: 2px solid #ffcc00;
+    margin-top: auto;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 850px) {
+    .auth-container { flex-direction: column; }
+    .info-side { border-right: none; border-bottom: 2px solid #ffcc00; }
+    .btn-group { flex-direction: column; }
+}

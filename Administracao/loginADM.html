@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oliver'CelL - Acesso Administrativo</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../Css/loginAdm.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-container">
+        <a href="../index.php" class="logo-link">
+            <img src="../imagens/logo.png" alt="Logo" class="logo-img">
+            <span class="logo-text">Oliver'<span>ADMIN</span></span>
+        </a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="auth-container">
+        
+        <div class="info-side">
+            <div id="info-login">
+                <h3>Novo Gestor?</h3>
+                <p>Cadastre um novo perfil administrativo para gerenciar a loja e os pedidos.</p>
+                <button class="toggle-btn" onclick="toggleForm('signup')">CADASTRAR ADM</button>
+            </div>
+            
+            <div id="info-signup" class="hidden">
+                <h3>Já tem acesso?</h3>
+                <p>Faça login com sua conta de administrador para entrar no painel.</p>
+                <button class="toggle-btn" onclick="toggleForm('login')">VOLTAR AO LOGIN</button>
+            </div>
+        </div>
+
+        <div class="form-side">
+            <div id="login-section">
+                <h2 class="form-title">Acesso Restrito</h2>
+                <p class="form-subtitle">PAINEL DE CONTROLE</p>
+                <form action="../Php/processar_login_adm.php" method="POST">
+                    <input type="email" name="email" class="form-input" placeholder="E-mail de Administrador" required>
+                    <input type="password" name="senha" class="form-input" placeholder="Senha" required>
+                    
+                    <div class="btn-group">
+                        <button type="submit" class="auth-btn">ENTRAR NO SISTEMA</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="signup-section" class="hidden">
+                <h2 class="form-title">Novo ADM</h2>
+                <p class="form-subtitle">REGISTRAR ADMINISTRADOR</p>
+                <form action="../Php/processar_usuario_adm.php" method="POST">
+                    <input type="text" name="nome" class="form-input" placeholder="Nome Completo" required>
+                    <input type="email" name="email" class="form-input" placeholder="E-mail Corporativo" required>
+                    <input type="password" name="senha" class="form-input" placeholder="Senha de Segurança" required>
+                    
+                    <div class="btn-group">
+                        <button type="submit" class="auth-btn">CRIAR ACESSO</button>
+                        <button type="button" onclick="toggleForm('login')" class="auth-btn btn-cancel">CANCELAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Oliver'CelL - Gestão de Sistemas.</p>
+</footer>
+
+<script>
+    function toggleForm(mode) {
+        const loginSection = document.getElementById('login-section');
+        const signupSection = document.getElementById('signup-section');
+        const infoLogin = document.getElementById('info-login');
+        const infoSignup = document.getElementById('info-signup');
+
+        if (mode === 'signup') {
+            loginSection.classList.add('hidden');
+            signupSection.classList.remove('hidden');
+            infoLogin.classList.add('hidden');
+            infoSignup.classList.remove('hidden');
+        } else {
+            signupSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            infoSignup.classList.add('hidden');
+            infoLogin.classList.remove('hidden');
+        }
+    }
+</script>
+
+</body>
+</html>

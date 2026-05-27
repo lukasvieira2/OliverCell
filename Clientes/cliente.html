@@ -1,0 +1,75 @@
+<?php
+session_start();
+
+// 1. Busca o config na raiz para resolver o erro da imagem 2
+$config_path = __DIR__ . '/../config.php';
+if (file_exists($config_path)) {
+    include_once($config_path);
+}
+
+// 2. Proteção: Se não houver sessão, volta para o login
+if (!isset($_SESSION['usuario_nome'])) {
+    header("Location: ../Login.php");
+    exit();
+}
+
+$nomeCompleto = $_SESSION['usuario_nome'];
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oliver'CelL - Painel</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../Css/principal.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-container">
+        <a href="cliente.php" class="logo-link">
+            <img src="../imagens/logo.png" alt="Logo" class="logo-img">
+            <span class="logo-text">Oliver'<span>CelL</span></span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="cliente.html" style="color: #ffcc00;">Início</a></li>
+                <li><a href="Pag-php/serviços.html">Serviços</a></li>
+                <li><a href="Pag-php/acessorios.html">acessorios</a></li>  
+                <li><a href="Perfil.php" class="btn-login"><i class="fas fa-user-circle"></i> PERFIL</a></li>
+                
+                
+                    <a href="../index.php" title="Sair" style="color: #ff4444; margin-left: 15px;">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="banner">
+    <div class="banner-content">
+        <h1>OLIVER'CELL</h1>
+        <p style="color: #ffcc00; font-weight: bold; text-transform: uppercase; margin-top: 15px; font-size: 1.5rem;">
+            BEM-VINDO, <?php echo htmlspecialchars($nomeCompleto); ?>!
+        </p>
+        <p style="margin-bottom: 25px;">Acesse suas informações e solicite reparos abaixo.</p>
+        
+        <a href="../Pag/orcamento.php" class="btn-solicitar">SOLICITAR ORÇAMENTO</a>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Oliver'CelL. Todos os direitos reservados.</p>
+</footer>
+
+<a href="https://wa.me/556193147906" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+</body>
+</html>

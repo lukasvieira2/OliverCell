@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oliver'CelL - Meu Carrinho</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Css/acessorios.css">
+    <link rel="stylesheet" href="../Css/carrinho.css">
+
+    <style>
+        
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="carrinho.html" class="logo-link">
+                <img src="../imagens/logo.png" alt="Logo" class="logo-img">
+                <span class="logo-text">Oliver'<span>CelL</span></span>
+            </a>
+        </div>
+    </header>
+
+    <main class="cart-container">
+        <div class="cart-title-section">
+            <h1><i class="fas fa-shopping-cart"></i> SEU CARRINHO</h1>
+            <p class="section-subtitle">Confira seus itens antes de finalizar o pedido via WhatsApp</p>
+        </div>
+
+        <div id="cart-content-wrapper">
+            <div id="lista-carrinho"></div>
+            
+            <div class="cart-summary" id="cart-summary-box" style="display:none;">
+                <button class="btn-checkout" onclick="enviarParaWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Finalizar Pedido no WhatsApp
+                </button>
+                <div class="clear-container">
+                    <button class="btn-clear" onclick="limparCarrinho()">
+                        <i class="fas fa-trash-alt"></i> Limpar Todo o Carrinho
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Oliver'CelL. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Mapeamento exato dos nomes dos produtos para suas respectivas imagens salvas
+        const mapeamentoImagens = {
+            "Cabo Tipo-C Masterdrive": "../imagens/CaboCelularTipoC.jpg",
+            "Cabo Lightning iPhone": "../imagens/cabocelularlightning .png",
+            "Fone Alpha Gold Branco": "../imagens/foneBranco.png",
+            "Fone Alpha Gold Preto": "../imagens/fonePreto.png",
+            "Suporte Veicular Peining 360°": "../imagens/CarMountAirVentHolder.png"
+        };
+
+        // Função para retornar a descrição abreviada de forma dinâmica
+        function obterDescricaoAbreviada(nome) {
+            const descricoes = {
+                "Cabo Tipo-C Masterdrive": "Cabo de alta velocidade",
+                "Cabo Lightning iPhone": "Carga rápida e segura",
+                "Fone Alpha Gold Branco": "Som Premium c/ super bass",
+                "Fone Alpha Gold Preto": "Isolamento e graves profundos",
+                "Suporte Veicular Peining 360°": "Articulado com rotação completa"
+            };
+            return descricoes[nome] || "Acessório Premium";
+        }
+
+        function obterCarrinho() {
+            return JSON.parse(localStorage.getItem('oliver_cart')) || [];
+        }
+
+        function renderizarCarrinho() {
+            const carrinho = obterCarrinho();
+            const listaDiv = document.getElementById('lista-carrinho');
+            const resumoBox = document.getElementById('cart-summary-box');
+            
+            if(carrinho.length === 0) {
+                listaDiv.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Seu carrinho está vazio.</p>
+                        <a href="Pag-php/acessorios.html" class="btn-back">Ver Acessórios</a>
+                    </div>
+                `;
+                resumoBox.style.display = "none";
+                return;
+            }
+
+            resumoBox.style.display = "block";
+            listaDiv.innerHTML = "";
+
+            carrinho.forEach((item, index) => {
+                const imagemSrc = mapeamentoImagens[item.nome] || "../imagens/logo.png";
+                const descricaoCurta = obterDescricaoAbreviada(item.nome);
+
+                const itemRow = document.createElement('div');
+                itemRow.className = "cart-item-row";
+                itemRow.innerHTML = `
+                    <div class="item-info">
+                        <img src="${imagemSrc}" alt="${item.nome}" class="item-img-thumb">
+                        <div class="item-text-details">
+                            <span class="item-name">${item.nome}</span>
+                            <span class="item-short-desc">${descricaoCurta}</span>
+                        </div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="qty-selector">
+                            <button class="btn-qty" onclick="mudarQtd(${index}, -1)">-</button>
+                            <span class="item-qtd">${item.qtd}</span>
+                            <button class="btn-qty" onclick="mudarQtd(${index}, 1)">+</button>
+                        </div>
+                        <button class="btn-remove" onclick="removerItem(${index})" title="Excluir produto">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                `;
+                listaDiv.appendChild(itemRow);
+            });
+        }
+
+        function mudarQtd(index, valor) {
+            let carrinho = obterCarrinho();
+            carrinho[index].qtd += valor;
+            if(carrinho[index].qtd <= 0) {
+                carrinho.splice(index, 1);
+            }
+            localStorage.setItem('oliver_cart', JSON.stringify(carrinho));
+            renderizarCarrinho();
+        }
+
+        function removerItem(index) {
+            let carrinho = obterCarrinho();
+            carrinho.splice(index, 1);
+            localStorage.setItem('oliver_cart', JSON.stringify(carrinho));
+            renderizarCarrinho();
+        }
+
+        function limparCarrinho() {
+            if(confirm("Tem certeza que deseja limpar todo o seu carrinho?")) {
+                localStorage.removeItem('oliver_cart');
+                renderizarCarrinho();
+            }
+        }
+
+        function enviarParaWhatsApp() {
+            const carrinho = obterCarrinho();
+            if(carrinho.length === 0) return;
+
+            let mensagem = "Olá Oliver'CelL! Gostaria de encomendar os seguintes acessórios:\n\n";
+            carrinho.forEach(item => {
+                mensagem += `▪️ *${item.qtd}x* ${item.nome}\n`;
+            });
+            mensagem += "\nPor favor, confirmem a disponibilidade para retirada!";
+
+            const linkWhatsApp = `https://wa.me/5561991857131?text=${encodeURIComponent(mensagem)}`;
+            window.open(linkWhatsApp, '_blank');
+        }
+
+        renderizarCarrinho();
+    </script>
+</body>
+</html>
