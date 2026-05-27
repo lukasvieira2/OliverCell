@@ -23,27 +23,33 @@ body {
     padding: 15px 0;
 }
 
-/* Header & Navegação */
-.header {
-    background-color: #000000;
-    border-bottom: 1.5px solid #ffcc00;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    padding: 15px 0;
-}
-
-/* CORREÇÃO DEFINITIVA: Centraliza e alinha perfeitamente com o grid de produtos */
+/* Alinhamento esticado de borda a borda nas laterais da tela */
 .header-container {
-    max-width: 1200px;  /* Garante o mesmo alinhamento dos produtos */
+    max-width: 100%;       /* Alterado para ocupar toda a largura da tela */
     width: 100%;
-    margin: 0 auto;     /* Centraliza o bloco na tela */
+    margin: 0;             /* Removido o auto para não centralizar o bloco */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;    /* Margem de segurança idêntica à dos produtos nas laterais */
+    padding: 0 40px;       /* Folga elegante de 40px para os elementos não colarem no vidro do monitor */
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.logo-img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo-text span {
+    color: #ffcc00;
 }
 
 /* Menu e Listas */
@@ -89,18 +95,19 @@ body {
     margin-top: 5px;
 }
 
-/* Container do Grid de Produtos */
+/* Container de Conteúdo e Grid de Produtos */
 .products-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px 80px 20px;
+    width: 100%;
 }
 
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 25px;
-    justify-content: center;
+    width: 100%;
 }
 
 /* Card Individual de Produto Estilo Premium */
@@ -155,7 +162,7 @@ body {
     flex-grow: 1;
 }
 
-/* Botão Compacto Fino e Centralizado */
+/* Botão Compacto Centralizado */
 .card-produto button {
     display: block;
     width: 85%;
