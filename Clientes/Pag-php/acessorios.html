@@ -8,8 +8,8 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link rel="stylesheet" href="../../css/acessorios.css?v=2">
-    <link rel="stylesheet" href="../../css/header.css?v=2">
+    <link rel="stylesheet" href="../../css/acessorios.css?v=3">
+    <link rel="stylesheet" href="../../css/header.css?v=3">
 </head>
 <body>
 
@@ -25,7 +25,6 @@
                     <li><a href="../index.php">Início</a></li>
                     <li><a href="serviços.html">Serviços</a></li>
                     <li><a href="contato.html">Contato</a></li>
-
                     <li>
                         <a href="../carrinho.html" style="position: relative;">
                             <i class="fas fa-shopping-cart" style="color: #ffcc00; font-size: 18px;"></i>
@@ -52,7 +51,8 @@
                     </div>
                     <h3>CABO TIPO-C PREMIUM</h3>
                     <p>Cabo de alta velocidade e durabilidade Masterdrive para conexões Tipo-C.</p>
-                    <button onclick="adicionarAoCarrinho('Cabo Tipo-C Masterdrive')">
+                    <p class="preco">R$ 15,00</p>
+                    <button onclick="adicionarAoCarrinho('CABO TIPO-C PREMIUM')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -63,7 +63,8 @@
                     </div>
                     <h3>CABO LIGHTNING IPHONE</h3>
                     <p>Cabo Masterdrive premium ideal para carga rápida e segura no seu iPhone.</p>
-                    <button onclick="adicionarAoCarrinho('Cabo Lightning iPhone')">
+                    <p class="preco">R$ 15,00</p>
+                    <button onclick="adicionarAoCarrinho('CABO LIGHTNING IPHONE')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -74,7 +75,8 @@
                     </div>
                     <h3>FONE ESTÉREO BRANCO</h3>
                     <p>Som Premium balanceado com super bass da Alpha Gold na cor branca.</p>
-                    <button onclick="adicionarAoCarrinho('Fone Alpha Gold Branco')">
+                    <p class="preco">R$ 15,00</p>
+                    <button onclick="adicionarAoCarrinho('FONE ESTÉREO BRANCO')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -85,7 +87,8 @@
                     </div>
                     <h3>FONE ESTÉREO PRETO</h3>
                     <p>Fone Alpha Gold de ouvido estéreo com excelente isolamento e graves profundos.</p>
-                    <button onclick="adicionarAoCarrinho('Fone Alpha Gold Preto')">
+                    <p class="preco">R$ 15,00</p>
+                    <button onclick="adicionarAoCarrinho('FONE ESTÉREO PRETO')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -96,7 +99,8 @@
                     </div>
                     <h3>SUPORTE VEICULAR 360°</h3>
                     <p>Suporte Peining articulado com rotação completa para fixação estável no painel.</p>
-                    <button onclick="adicionarAoCarrinho('Suporte Veicular Peining 360°')">
+                    <p class="preco">R$ 40,00</p>
+                    <button onclick="adicionarAoCarrinho('SUPORTE VEICULAR 360°')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -107,7 +111,8 @@
                     </div>
                     <h3>CARREGADOR INOVA CA41</h3>
                     <p>Carregador rápido e seguro de alta performance para o dia a dia.</p>
-                    <button onclick="adicionarAoCarrinho('Carregador Inova CA41')">
+                    <p class="preco">R$ 20,00</p>
+                    <button onclick="adicionarAoCarrinho('CARREGADOR INOVA CA41')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -118,7 +123,8 @@
                     </div>
                     <h3>FONE BLUETOOTH TWS</h3>
                     <p>Fone de ouvido sem fio de alta fidelidade com excelente autonomia de bateria.</p>
-                    <button onclick="adicionarAoCarrinho('Fone Bluetooth TWS')">
+                    <p class="preco">R$ 40,00</p>
+                    <button onclick="adicionarAoCarrinho('FONE BLUETOOTH TWS')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -129,7 +135,8 @@
                     </div>
                     <h3>CABO PEINING 3 EM 1</h3>
                     <p>Cabo multi-conector ultra resistente ideal para carregar múltiplos dispositivos.</p>
-                    <button onclick="adicionarAoCarrinho('Cabo Peining 3 em 1')">
+                    <p class="preco">R$ 40,00</p>
+                    <button onclick="adicionarAoCarrinho('CABO PEINING 3 EM 1')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -140,7 +147,8 @@
                     </div>
                     <h3>CARREGADOR TURBO RÁPIDO</h3>
                     <p>Fonte de alta amperagem desenvolvida para carregamento inteligente e estável.</p>
-                    <button onclick="adicionarAoCarrinho('Carregador Turbo Rápido')">
+                    <p class="preco">R$ 40,00</p>
+                    <button onclick="adicionarAoCarrinho('CARREGADOR TURBO RÁPIDO')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -151,7 +159,8 @@
                     </div>
                     <h3>FONTE USB-C 20W PREMIUM</h3>
                     <p>Adaptador de tomada turbo de 20W perfeito para carregamento rápido de iPhones.</p>
-                    <button onclick="adicionarAoCarrinho('Fonte USB-C 20W Premium')">
+                    <p class="preco">R$ 30,00</p>
+                    <button onclick="adicionarAoCarrinho('FONTE USB-C 20W PREMIUM')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -169,7 +178,6 @@
     </a>
 
     <script>
-        // Sistema de Memória do Carrinho Local
         function obterCarrinho() {
             return JSON.parse(localStorage.getItem('oliver_cart')) || [];
         }
@@ -185,12 +193,30 @@
 
         function adicionarAoCarrinho(nomeProduto) {
             let carrinho = obterCarrinho();
-            let produtoExistente = carrinho.find(item => item.nome === nomeProduto);
+            let produtoExistente = carrinho.find(item => item.nome.toUpperCase() === nomeProduto.toUpperCase());
+
+            let precoProduto = 0;
+            let imagemProduto = "";
+            
+            const cards = document.querySelectorAll('.card-produto');
+            cards.forEach(card => {
+                const titulo = card.querySelector('h3').innerText.trim();
+                if(titulo.toUpperCase() === nomeProduto.toUpperCase()) {
+                    const precoTexto = card.querySelector('.preco').innerText;
+                    precoProduto = parseFloat(precoTexto.replace('R$', '').replace('.', '').replace(',', '.').trim());
+                    imagemProduto = card.querySelector('.img-container img').getAttribute('src');
+                }
+            });
 
             if(produtoExistente) {
                 produtoExistente.qtd += 1;
             } else {
-                carrinho.push({ nome: nomeProduto, qtd: 1 });
+                carrinho.push({ 
+                    nome: nomeProduto, 
+                    qtd: 1, 
+                    preco: precoProduto, 
+                    imagem: imagemProduto 
+                });
             }
 
             localStorage.setItem('oliver_cart', JSON.stringify(carrinho));
@@ -198,7 +224,6 @@
             alert(`${nomeProduto} foi adicionado ao seu carrinho!`);
         }
 
-        // Inicializa o contador ao renderizar a tela
         atualizarContador();
     </script>
 </body>

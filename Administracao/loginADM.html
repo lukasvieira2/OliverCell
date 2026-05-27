@@ -74,6 +74,7 @@
 </footer>
 
 <script>
+    // Função que alterna a exibição entre as telas de login e cadastro
     function toggleForm(mode) {
         const loginSection = document.getElementById('login-section');
         const signupSection = document.getElementById('signup-section');
@@ -90,6 +91,22 @@
             loginSection.classList.remove('hidden');
             infoSignup.classList.add('hidden');
             infoLogin.classList.remove('hidden');
+        }
+    }
+
+    // CÓDIGO NOVO INTEGRADO: Lê os parâmetros da URL para exibir mensagens de erro amigáveis
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('erro')) {
+            const erro = urlParams.get('erro');
+            if (erro === 'email_existe') {
+                alert('Atenção: Este e-mail já está cadastrado como administrador!');
+                toggleForm('signup'); // Já abre na aba de cadastro para o usuário corrigir
+            } else if (erro === 'senha_incorreta') {
+                alert('Erro: Senha incorreta! Tente novamente.');
+            } else if (erro === 'usuario_inexistente') {
+                alert('Erro: Administrador não encontrado com este e-mail.');
+            }
         }
     }
 </script>

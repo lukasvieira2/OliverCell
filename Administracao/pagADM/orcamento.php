@@ -84,7 +84,7 @@ try {
                 <a href="orcamento.php" class="flex items-center py-2.5 px-4 rounded nav-link-active">
                     <i class="fas fa-chart-line mr-3"></i> Orçamento
                 </a>
-                <a href="pedidos.html.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
+                <a href="pedidos.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                     <i class="fas fa-cog mr-3"></i> Pedidos
                 </a>
             </nav>
