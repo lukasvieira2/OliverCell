@@ -1,4 +1,6 @@
-/* Reset & Estilo Base Alinhado com o Tema Escuro */
+/* ==========================================================================
+   1. RESET & ESTILO BASE (TEMA ESCURO)
+   ========================================================================== */
 body {
     background-color: #000000;
     color: #ffffff;
@@ -45,7 +47,9 @@ body {
     text-transform: uppercase;
 }
 
-/* Caixa Principal da Lista de Compras */
+/* ==========================================================================
+   2. CAIXA PRINCIPAL DA LISTA DE COMPRAS
+   ========================================================================== */
 #lista-carrinho {
     background-color: #050505;
     border: 1.5px solid #ffcc00;
@@ -54,13 +58,14 @@ body {
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.8);
 }
 
-/* Linha de cada Produto */
+/* Linha de cada Produto (Estrutura Unificada e Flexível) */
 .cart-item-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
-    border-bottom: 1px solid #1a1a1a;
+    justify-content: space-between;
+    padding: 12px 15px;
+    border-bottom: 1px solid #222;
+    gap: 15px;
 }
 
 .cart-item-row:last-child {
@@ -79,34 +84,65 @@ body {
     font-size: 1.2rem;
 }
 
-.item-name {
-    font-size: 1.05rem;
-    font-weight: 400;
-    color: #ffffff;
+/* Miniatura da Imagem do Produto */
+.item-img-thumb {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    border-radius: 6px;
+    background-color: #111;
+    padding: 2px;
+    border: 1px solid #333;
 }
 
-/* Controles de Quantidade (Lado Direito) */
+/* Detalhes de Texto do Item */
+.item-text-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Descrição Curta/Abreviada */
+.item-short-desc {
+    font-size: 12px;
+    color: #888;
+}
+
+/* ==========================================================================
+   3. CONTROLES E BOTÕES (LADO DIREITO)
+   ========================================================================== */
 .item-controls {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* Botões de + e - */
-.btn-qty {
-    background-color: transparent;
-    color: #ffffff;
-    border: 1px solid #ffcc00;
-    width: 28px;
-    height: 28px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 4px;
-    cursor: pointer;
+/* Seletor Compacto de Quantidade */
+.qty-selector {
     display: flex;
     align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+    background-color: #111;
+    border: 1px solid #ffcc00;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Botões de + e - Estilizados */
+.btn-qty {
+    background: none;
+    border: none;
+    color: #ffcc00;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
 }
 
 .btn-qty:hover {
@@ -114,24 +150,25 @@ body {
     color: #000000;
 }
 
-/* Número da Quantidade */
+/* Exibição Numérica da Quantidade */
 .item-qtd {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #ffffff;
+    color: #fff;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: 600;
     min-width: 20px;
     text-align: center;
 }
 
-/* Botão de Excluir (X) */
+/* Botão de Remover Item (X) */
 .btn-remove {
-    background: transparent;
-    color: #ff3b30;
+    background: none;
     border: none;
-    font-size: 1.1rem;
+    color: #ff4444;
     cursor: pointer;
-    margin-left: 5px;
-    transition: color 0.2s ease;
+    font-size: 14px;
+    padding: 8px;
+    transition: color 0.2s;
     display: flex;
     align-items: center;
 }
@@ -140,12 +177,15 @@ body {
     color: #ff0000;
 }
 
-/* Caixa de Resumo e Ações Finais */
+/* ==========================================================================
+   4. CAIXA DE RESUMO E AÇÕES FINAIS
+   ========================================================================== */
 .cart-summary {
     margin-top: 30px;
+    text-align: center;
 }
 
-/* Botão Principal do WhatsApp */
+/* Botão de Finalizar no WhatsApp */
 .btn-checkout {
     background-color: #25d366;
     color: #ffffff;
@@ -173,7 +213,7 @@ body {
     transform: scale(0.98);
 }
 
-/* Botão Limpar Carrinho Discreto */
+/* Botão Limpar Carrinho */
 .btn-clear {
     background: transparent;
     color: #555555;
@@ -184,6 +224,7 @@ body {
     letter-spacing: 1px;
     cursor: pointer;
     padding: 5px 10px;
+    margin-top: 15px;
     transition: color 0.2s ease;
 }
 
@@ -191,7 +232,9 @@ body {
     color: #ff3b30;
 }
 
-/* Estado de Carrinho Vazio */
+/* ==========================================================================
+   5. ESTADO DE CARRINHO VAZIO
+   ========================================================================== */
 .cart-empty {
     text-align: center;
     padding: 50px 0;
@@ -225,83 +268,44 @@ body {
     background-color: #e6b800;
 }
 
-/* Ajuste de tamanho e alinhamento do carrinho baseado no modelo padrão */
-        .cart-item-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 15px;
-            border-bottom: 1px solid #222;
-            gap: 15px;
-        }
-        .item-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        /* Travando o tamanho da imagem idêntico ao modelo compacto */
-        .item-img-thumb {
-            width: 55px;
-            height: 55px;
-            object-fit: contain;
-            border-radius: 6px;
-            background-color: #111;
-            padding: 2px;
-            border: 1px solid #333;
-        }
-        .item-text-details {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .item-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-        }
-        /* Estilo para a descrição curta/abreviada */
-        .item-short-desc {
-            font-size: 12px;
-            color: #888;
-        }
-        /* Estilização compacta dos botões + e - */
-        .qty-selector {
-            display: flex;
-            align-items: center;
-            background-color: #111;
-            border: 1px solid #ffcc00;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .btn-qty {
-            background: none;
-            border: none;
-            color: #ffcc00;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-        .btn-qty:hover {
-            background-color: #ffcc00;
-            color: #000;
-        }
-        .item-qtd {
-            color: #fff;
-            padding: 0 10px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .btn-remove {
-            background: none;
-            border: none;
-            color: #ff4444;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 8px;
-            transition: color 0.2s;
-        }
-        .btn-remove:hover {
-            color: #ff0000;
-        }
+/* ==========================================================================
+   6. REGRAS DE RESPONSIVIDADE (CELULAR E TELAS PEQUENAS)
+   ========================================================================== */
+@media (max-width: 600px) {
+    .cart-container {
+        margin: 110px auto 40px auto; /* Reduz margens no topo no mobile */
+        padding: 0 12px;
+    }
+
+    .cart-title-section h1 {
+        font-size: 1.7rem;
+    }
+
+    #lista-carrinho {
+        padding: 5px 12px; /* Encolhe o preenchimento interno do container */
+    }
+
+    .cart-item-row {
+        flex-direction: column; /* Joga os controles para baixo do nome do produto */
+        align-items: flex-start;
+        gap: 12px;
+        padding: 15px 5px;
+    }
+
+    .item-controls {
+        width: 100%;
+        justify-content: space-between; /* Deixa o seletor na esquerda e o lixo na direita */
+        border-top: 1px dashed #222;
+        padding-top: 10px;
+    }
+
+    .item-name {
+        font-size: 13px;
+    }
+
+    .btn-checkout {
+        width: 100%;
+        max-width: 100%; /* Botão WhatsApp ocupa a largura total no mobile */
+        font-size: 1rem;
+    }
+}

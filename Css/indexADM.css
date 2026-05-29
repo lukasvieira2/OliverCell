@@ -6,6 +6,9 @@
 body.oliver-painel {
     background-color: #000000 !important;
     color: #e2e8f0 !important;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* Elementos Principais com Fundo Preto Profundo */
@@ -117,4 +120,70 @@ body.oliver-painel {
 .table-body-white .text-cliente-dark {
     color: #111827 !important;
     font-weight: 600;
+}
+
+/* ==========================================================================
+   REGRAS DE RESPONSIVIDADE DO PAINEL ADM (PC vs CELULAR)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    /* Ajuste para layouts baseados em colunas laterais fixas */
+    .oliver-painel .flex-container {
+        flex-direction: column;
+    }
+
+    /* Transforma a sidebar em uma barra superior ou recolhível em tablets/celulares */
+    .oliver-painel sidebar, 
+    .oliver-painel .sidebar-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        padding: 15px !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+    }
+
+    .oliver-painel .sidebar-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    /* Conteúdo principal ocupa a tela inteira */
+    .oliver-painel .main-content-container {
+        padding: 20px 15px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Força os grids de métricas/cards a ficarem em uma única coluna no celular */
+    .oliver-painel .grid-metrics,
+    .oliver-painel [class*="grid-cols-"] {
+        grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+        gap: 15px !important;
+    }
+
+    /* Evita que títulos e números gigantes quebrem o design do card */
+    .text-oliver-number-dark {
+        font-size: 1.8rem !important;
+    }
+
+    /* PROTEÇÃO CONTRA QUEBRA DE TABELA NO MOBILE
+       Adiciona rolagem para o lado apenas na tabela, sem quebrar o site inteiro */
+    .table-responsive-container {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 20px;
+        border: 1px solid rgba(217, 119, 6, 0.3);
+        border-radius: 6px;
+    }
+
+    /* Garante legibilidade mínima para os dados dentro das células brancas */
+    .table-body-white td, 
+    .table-header-oliver th {
+        padding: 10px 12px !important;
+        font-size: 0.85rem !important;
+        white-space: nowrap; /* Impede que os nomes e IDs quebrem linhas feias */
+    }
 }

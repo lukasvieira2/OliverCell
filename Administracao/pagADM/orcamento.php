@@ -3,11 +3,13 @@ session_start();
 
 // Proteção da página: impede acessos diretos sem autenticação válida
 if (!isset($_SESSION['admin_id'])) {
+    // CORREÇÃO: Para sair de 'pagADM' e ir para a raiz onde está 'loginADM.html', usa-se apenas um '../'
     header("Location: ../loginADM.html");
     exit();
 }
 
 // Inclusão da conexão com o banco - Voltando duas pastas para achar a raiz
+// CORREÇÃO: 'pagADM' está dentro de 'Administracao'. Para chegar na raiz onde está 'config.php', precisamos de ../../
 include_once('../../config.php');
 
 // ==========================================================================
@@ -63,6 +65,7 @@ try {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../../Css/indexADM.css">
+</head>
 <body class="oliver-painel font-sans">
 
     <div class="flex h-screen overflow-hidden">
@@ -75,21 +78,21 @@ try {
                 <a href="../indexADM.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                     <i class="fas fa-home mr-3"></i> Usuários
                 </a>
-                <a href="servicos.html.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
-                   <i class="fas fa-home mr-3"></i> Serviços
+                <a href="servicos.html" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
+                   <i class="fas fa-tools mr-3"></i> Serviços
                 </a>
-                <a href="produto.html.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
+                <a href="produto.html" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                     <i class="fas fa-box mr-3"></i> Produtos
                 </a>
                 <a href="orcamento.php" class="flex items-center py-2.5 px-4 rounded nav-link-active">
                     <i class="fas fa-chart-line mr-3"></i> Orçamento
                 </a>
                 <a href="pedidos.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
-                    <i class="fas fa-cog mr-3"></i> Pedidos
+                    <i class="fas fa-shopping-bag mr-3"></i> Pedidos
                 </a>
             </nav>
             <div class="p-4 border-t border-zinc-900">
-                <a href="../Php/logout.php" class="w-full flex items-center py-2 px-4 text-red-400 hover:bg-red-950/20 rounded transition-all">
+                <a href="../../Php/logout.php" class="w-full flex items-center py-2 px-4 text-red-400 hover:bg-red-950/20 rounded transition-all">
                     <i class="fas fa-sign-out-alt mr-3"></i> Sair
                 </a>
             </div>
@@ -157,8 +160,6 @@ try {
                                 } elseif ($resultado_orcamentos && mysqli_num_rows($resultado_orcamentos) > 0) {
                                     while ($orcamento = mysqli_fetch_assoc($resultado_orcamentos)) {
                                         $data_formatada = !empty($orcamento['data_solicitacao']) ? date('d/m/Y H:i', strtotime($orcamento['data_solicitacao'])) : 'Não informada';
-                                        
-                                        // Define o status padrão caso esteja em branco no banco
                                         $status_atual = !empty($orcamento['status']) ? $orcamento['status'] : 'Pendente';
                                         ?>
                                         <tr class="table-row-oliver">
@@ -237,7 +238,6 @@ try {
         .then(resposta => resposta.json())
         .then(dados => {
             if (dados.status === 'sucesso') {
-                // Remove as classes de cores antigas e insere a cor correspondente ao novo status
                 elementoSelect.className = "rounded px-2.5 py-1 text-xs font-bold border cursor-pointer focus:outline-none shadow-sm transition-all ";
                 
                 if(valorSelecionado === 'Pendente') {

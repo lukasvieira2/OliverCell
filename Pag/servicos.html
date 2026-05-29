@@ -4,66 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oliver'CelL - Nossos Serviços</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../Css/servico.css">
     <link rel="icon" href="../imagens/logo.png" type="image/png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../css/servico.css?v=2">
+    <link rel="stylesheet" href="../css/header.css?v=2">
 </head>
 <body>
 
-<header class="header">
-    <div class="header-container">
-        <a href="../index.php" class="logo-link">
-            <img src="../imagens/logo.png" alt="Logo" class="logo-img">
-            <span class="logo-text">Oliver'<span>CelL</span></span>
-        </a>
-        <nav>
-            <ul>
-                <li><a href="../index.php">Início</a></li>
-                <li><a href="acessorios.html">Acessórios</a></li>
-                <li><a href="contato.html">Contato</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.php" class="logo-link">
+                <img src="../imagens/logo.png" alt="Logo" class="logo-img">
+                <span class="logo-text">Oliver'<span>CelL</span></span>
+            </a>
+            <nav class="nav-principal">
+                <ul class="menu-main">
+                    <li><a href="../index.php">Início</a></li>
+                    <li><a href="acessorios.php">Acessórios</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li>
+                        <a href="../carrinho.php" style="position: relative; display: inline-flex; align-items: center;">
+                            <i class="fas fa-shopping-cart" style="color: #ffcc00; font-size: 18px;"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<main class="services-container">
-    <section class="services-intro">
-        <h1>Nossos Serviços</h1>
-        <p class="section-subtitle">Excelência e Agilidade</p>
-    </section>
+    <main class="services-container">
+        <section class="services-intro">
+            <h1>Nossos Serviços</h1>
+            <p class="section-subtitle">Excelência e Agilidade</p>
+        </section>
 
-    <div class="services-grid">
-        <div class="service-card">
-            <div class="card-icon"><i class="fas fa-tools"></i></div>
-            <h3>Assistência Técnica</h3>
-            <p>Troca de tela, bateria e reparos em placa com garantia.</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="card-icon"><i class="fas fa-tools"></i></div>
+                <h3>Assistência Técnica</h3>
+                <p>Troca de tela, bateria e reparos em placa com garantia.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="card-icon"><i class="fas fa-shopping-bag"></i></div>
+                <h3>Venda de Produtos</h3>
+                <p>Smartphones novos, seminovos e acessórios premium.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="card-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Software</h3>
+                <p>Atualizações, recuperação de dados e desbloqueios.</p>
+            </div>
         </div>
 
-        <div class="service-card">
-            <div class="card-icon"><i class="fas fa-shopping-bag"></i></div>
-            <h3>Venda de Produtos</h3>
-            <p>Smartphones novos, seminovos e acessórios premium.</p>
+        <div class="cta-section">
+            <a href="orcamento.php" class="btn-solicitar">
+                Fazer Orçamento Agora
+            </a>
         </div>
+    </main>
 
-        <div class="service-card">
-            <div class="card-icon"><i class="fas fa-mobile-alt"></i></div>
-            <h3>Software</h3>
-            <p>Atualizações, recuperação de dados e desbloqueios.</p>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2026 Oliver'CelL. Todos os direitos reservados.</p>
+    </footer>
 
-    <div class="cta-section">
-        <a href="orcamento.php" class="btn-solicitar">Fazer Orçamento Agora</a>
-    </div>
-</main>
-
-<footer>
-    <p>&copy; 2026 Oliver'CelL. Todos os direitos reservados.</p>
-</footer>
-
-<a href="https://wa.me/5561991857131" class="whatsapp-float" target="_blank">
-    <i class="fab fa-whatsapp"></i>
-</a>
+    <a href="https://wa.me/5561991857131" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
 </body>
 </html>

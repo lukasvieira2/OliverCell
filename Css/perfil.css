@@ -1,7 +1,11 @@
-/* --- CONFIGURAÇÕES BASE --- */
+/* ==========================================================================
+   1. CONFIGURAÇÕES BASE E RESET
+   ========================================================================== */
 * {
-    margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
 }
 
 body {
@@ -12,7 +16,9 @@ body {
     flex-direction: column;
 }
 
-/* --- HEADER --- */
+/* ==========================================================================
+   2. HEADER CENTRALIZADO
+   ========================================================================== */
 .header {
     background: #000;
     padding: 15px 0;
@@ -20,13 +26,36 @@ body {
     width: 100%;
 }
 
-.header-container { display: flex; justify-content: center; align-items: center; }
-.logo-link { display: flex; align-items: center; text-decoration: none; gap: 10px; }
-.logo-img { height: 50px; }
-.logo-text { font-size: 1.8rem; color: #ffcc00; font-weight: bold; }
-.logo-text span { color: #fff; }
+.header-container { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
 
-/* --- CONTAINER PERFIL --- */
+.logo-link { 
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    gap: 10px; 
+}
+
+.logo-img { 
+    height: 50px; 
+}
+
+.logo-text { 
+    font-size: 1.8rem; 
+    color: #ffcc00; 
+    font-weight: bold; 
+}
+
+.logo-text span { 
+    color: #fff; 
+}
+
+/* ==========================================================================
+   3. CONTAINER PERFIL PRINCIPAL
+   ========================================================================== */
 .main-content {
     flex: 1;
     display: flex;
@@ -41,12 +70,14 @@ body {
     width: 100%;
     max-width: 900px;
     border: 2px solid #ffcc00;
-    border-radius: 2px;
+    border-radius: 2px; /* MANTÉM AS QUINAS RETAS */
     overflow: hidden;
     box-shadow: 0 0 30px rgba(255, 204, 0, 0.1);
 }
 
-/* --- SIDEBAR --- */
+/* ==========================================================================
+   4. SIDEBAR DE NAVEGAÇÃO DO PERFIL
+   ========================================================================== */
 .perfil-sidebar {
     flex: 1;
     background: #0a0a0a;
@@ -56,18 +87,36 @@ body {
 }
 
 .avatar-circle {
-    width: 100px; height: 100px;
+    width: 100px; 
+    height: 100px;
     border: 3px solid #ffcc00;
-    border-radius: 50%;
+    border-radius: 50%; /* Mantém o círculo perfeito do avatar */
     margin: 0 auto 15px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3rem; color: #ffcc00;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 3rem; 
+    color: #ffcc00;
 }
 
-.perfil-sidebar h3 { color: #fff; text-transform: uppercase; margin-bottom: 5px; }
-.perfil-sidebar p { color: #ffcc00; font-size: 0.9rem; font-weight: bold; }
+.perfil-sidebar h3 { 
+    color: #fff; 
+    text-transform: uppercase; 
+    margin-bottom: 5px; 
+    font-size: 1.2rem;
+}
 
-.divider { border: 0; border-top: 1px solid #333; margin: 20px 0; }
+.perfil-sidebar p { 
+    color: #ffcc00; 
+    font-size: 0.9rem; 
+    font-weight: bold; 
+}
+
+.divider { 
+    border: 0; 
+    border-top: 1px solid #333; 
+    margin: 20px 0; 
+}
 
 .side-link {
     display: block;
@@ -78,29 +127,62 @@ body {
     transition: 0.3s;
     text-align: left;
     font-size: 0.9rem;
+    font-weight: 500;
 }
 
-.side-link:hover { background: #111; color: #ffcc00; }
-.logout { color: #ff4444; }
+.side-link:hover { 
+    background: #111; 
+    color: #ffcc00; 
+}
 
-/* --- CONTEÚDO PRINCIPAL --- */
+.logout { 
+    color: #ff4444; 
+}
+
+.logout:hover {
+    color: #ff0000;
+    background: rgba(255, 68, 68, 0.05);
+}
+
+/* ==========================================================================
+   5. ÁREA DE CONTEÚDO DE DADOS
+   ========================================================================== */
 .perfil-main {
     flex: 2;
     padding: 40px;
 }
 
-.title { color: #ffcc00; text-transform: uppercase; margin-bottom: 30px; letter-spacing: 2px; }
+.title { 
+    color: #ffcc00; 
+    text-transform: uppercase; 
+    margin-bottom: 30px; 
+    letter-spacing: 2px; 
+    font-size: 1.8rem;
+}
 
-.info-group { margin-bottom: 20px; }
-.info-group label { display: block; color: #888; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px; }
+.info-group { 
+    margin-bottom: 20px; 
+}
+
+.info-group label { 
+    display: block; 
+    color: #888; 
+    font-size: 0.8rem; 
+    text-transform: uppercase; 
+    margin-bottom: 8px; 
+    font-weight: 600;
+}
+
 .info-box {
     background: #111;
     padding: 15px;
     border: 1px solid #333;
+    border-radius: 2px;
     color: #fff;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
 }
 
+/* Painel de Métricas / Status */
 .status-section {
     display: flex;
     gap: 15px;
@@ -111,35 +193,108 @@ body {
     flex: 1;
     background: #0a0a0a;
     border: 1px solid #ffcc00;
+    border-radius: 2px;
     padding: 20px;
     text-align: center;
 }
 
-.status-num { display: block; font-size: 2rem; color: #ffcc00; font-weight: bold; }
-.status-label { font-size: 0.7rem; color: #fff; text-transform: uppercase; }
+.status-num { 
+    display: block; 
+    font-size: 2rem; 
+    color: #ffcc00; 
+    font-weight: bold; 
+}
 
+.status-label { 
+    font-size: 0.75rem; 
+    color: #fff; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+}
+
+/* Botão Reto Inferior */
 .btn-voltar {
     width: 100%;
     padding: 15px;
     background: transparent;
     color: #ffcc00;
     border: 2px solid #ffcc00;
+    border-radius: 2px;
     font-weight: bold;
+    text-transform: uppercase;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.btn-voltar:hover { background: #ffcc00; color: #000; }
+.btn-voltar:hover { 
+    background: #ffcc00; 
+    color: #000; 
+}
 
-/* --- FOOTER --- */
+/* ==========================================================================
+   6. FOOTER
+   ========================================================================== */
 footer {
     padding: 20px;
     background: #000;
     text-align: center;
     border-top: 2px solid #ffcc00;
+    font-size: 0.85rem;
+    color: #666;
 }
 
-@media (max-width: 700px) {
-    .perfil-container { flex-direction: column; }
-    .perfil-sidebar { border-right: none; border-bottom: 2px solid #ffcc00; }
+/* ==========================================================================
+   7. REGRAS DE RESPONSIVIDADE (TELA DE CELULAR / MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 20px 10px;
+    }
+
+    .perfil-container { 
+        flex-direction: column; 
+    }
+
+    .perfil-sidebar { 
+        border-right: none; 
+        border-bottom: 2px solid #ffcc00; 
+        padding: 30px 15px;
+    }
+
+    .side-link {
+        text-align: center; /* Centraliza os links no mobile para melhor encaixe */
+        padding: 10px;
+        background: #111;
+        margin-bottom: 8px;
+        border-radius: 2px;
+    }
+
+    .perfil-main {
+        padding: 30px 15px;
+    }
+
+    .title {
+        font-size: 1.4rem;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .info-box {
+        font-size: 0.95rem;
+        padding: 12px;
+    }
+
+    /* Transforma os cards lado a lado em blocos verticais no celular */
+    .status-section {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .status-card {
+        padding: 15px;
+    }
+
+    .status-num {
+        font-size: 1.7rem;
+    }
 }

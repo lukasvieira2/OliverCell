@@ -1,9 +1,11 @@
-/* 1. RESET E CONFIGURAÇÕES DE BASE */
+/* ==========================================================================
+   1. RESET E CONFIGURAÇÕES DE BASE
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Montserrat', 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
@@ -15,12 +17,13 @@ body {
     flex-direction: column;
 }
 
-/* 2. HEADER (LOGOTIPO NA ESQUERDA, MENU NA DIREITA) */
+/* ==========================================================================
+   2. HEADER (LOGOTIPO NA ESQUERDA, MENU NA DIREITA)
+   ========================================================================== */
 .header {
     background: #000;
     padding: 20px 50px;
-    /* ALTERADO: Linha dourada no cabeçalho */
-    border-bottom: 2px solid #ffcc00; 
+    border-bottom: 2px solid #ffcc00; /* Linha dourada no cabeçalho */
     width: 100%;
 }
 
@@ -50,12 +53,15 @@ body {
     font-weight: bold; 
 }
 
-.logo-text span { color: #fff; }
+.logo-text span { 
+    color: #fff; 
+}
 
 nav ul { 
     display: flex; 
     list-style: none; 
     gap: 30px; 
+    align-items: center;
 }
 
 nav a { 
@@ -63,11 +69,16 @@ nav a {
     text-decoration: none; 
     transition: 0.3s; 
     font-size: 15px; 
+    font-weight: 500;
 }
 
-nav a:hover { color: #ffcc00; }
+nav a:hover { 
+    color: #ffcc00; 
+}
 
-/* 3. CONTEÚDO DE SERVIÇOS (CONTAINER) */
+/* ==========================================================================
+   3. CONTEÚDO DE SERVIÇOS (CONTAINER INTRODUTÓRIO)
+   ========================================================================== */
 .services-container {
     max-width: 1100px;
     margin: 50px auto;
@@ -92,7 +103,9 @@ nav a:hover { color: #ffcc00; }
     letter-spacing: 1px;
 }
 
-/* 4. GRADE DE SERVIÇOS (3 LADO A LADO) */
+/* ==========================================================================
+   4. GRADE DE SERVIÇOS (3 LADO A LADO NO DESKTOP)
+   ========================================================================== */
 .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -104,16 +117,14 @@ nav a:hover { color: #ffcc00; }
     background: #0a0a0a;
     padding: 35px 25px;
     border-radius: 20px;
-    /* ALTERADO: Borda dourada fixa nos cards */
-    border: 2px solid #ffcc00; 
-    transition: 0.4s ease;
+    border: 2px solid #ffcc00; /* Borda dourada fixa nos cards */
+    transition: transform 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .service-card:hover {
     transform: translateY(-8px);
     background: #0d0d0d;
-    /* Efeito de brilho dourado no hover */
-    box-shadow: 0 10px 30px rgba(255, 204, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(255, 204, 0, 0.2); /* Efeito de brilho dourado no hover */
 }
 
 .card-icon i {
@@ -134,7 +145,9 @@ nav a:hover { color: #ffcc00; }
     line-height: 1.6;
 }
 
-/* 5. BOTÃO DE ORÇAMENTO (CENTRALIZADO EMBAIXO) */
+/* ==========================================================================
+   5. BOTÃO DE ORÇAMENTO (CENTRALIZADO EMBAIXO)
+   ========================================================================== */
 .cta-section {
     display: flex;
     justify-content: center;
@@ -161,13 +174,16 @@ nav a:hover { color: #ffcc00; }
     100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
 }
 
-/* 6. FOOTER E WHATSAPP */
+/* ==========================================================================
+   6. FOOTER E WHATSAPP FLUTUANTE
+   ========================================================================== */
 footer {
     padding: 30px;
     background: #000;
     text-align: center;
-    /* ALTERADO: Linha dourada no rodapé */
-    border-top: 2px solid #ffcc00; 
+    border-top: 2px solid #ffcc00; /* Linha dourada no rodapé */
+    font-size: 0.85rem;
+    color: #666;
 }
 
 .whatsapp-float {
@@ -185,23 +201,70 @@ footer {
     font-size: 30px;
     text-decoration: none;
     z-index: 1000;
-    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
 }
 
-.whatsapp-float:hover { transform: scale(1.1); }
+.whatsapp-float:hover { 
+    transform: scale(1.1); 
+}
 
-/* 7. RESPONSIVIDADE (PARA CELULAR) */
+/* ==========================================================================
+   7. REGRAS DE RESPONSIVIDADE (PARA CELULAR E TABLET)
+   ========================================================================== */
 @media (max-width: 900px) {
-    .header { padding: 20px; }
-    
-    .services-grid {
-        grid-template-columns: 1fr;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
+    .header { 
+        padding: 20px; 
+    }
+
+    .header-container {
+        flex-direction: column; /* Alinha logo e navegação verticalmente no mobile */
+        gap: 15px;
+    }
+
+    nav ul {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .services-container {
+        margin: 30px auto;
     }
 
     .services-intro h1 {
         font-size: 2rem;
+    }
+
+    .section-subtitle {
+        margin-bottom: 35px;
+    }
+
+    /* Modifica o Grid de 3 colunas para 1 coluna adaptável */
+    .services-grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        padding: 0 10px;
+        gap: 20px;
+    }
+
+    .service-card {
+        padding: 30px 20px;
+    }
+
+    .btn-solicitar {
+        padding: 15px 35px;
+        font-size: 0.95rem;
+        width: 100%;
+        max-width: 300px; /* Impede que o botão fique gigante nas laterais */
+        text-align: center;
+    }
+
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        bottom: 20px;
+        right: 20px;
     }
 }

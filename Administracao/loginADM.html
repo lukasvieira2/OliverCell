@@ -1,3 +1,36 @@
+<?php
+session_start();
+
+// Se o administrador já estiver logado, redireciona direto para a index do painel
+if (isset($_SESSION['admin_id'])) {
+    header("Location: indexADM.php");
+    exit();
+}
+
+// Captura de mensagens de erro ou sucesso passadas via URL
+$mensagem_erro = "";
+if (isset($_GET['erro'])) {
+    switch ($_GET['erro']) {
+        case 'email_existe':
+            $mensagem_erro = "Atenção: Este e-mail já está cadastrado como administrador!";
+            break;
+        case 'senha_incorreta':
+            $mensagem_erro = "Erro: Senha incorreta! Tente novamente.";
+            break;
+        case 'usuario_inexistente':
+            $mensagem_erro = "Erro: Administrador não encontrado com este e-mail.";
+            break;
+        case 'acesso_negado':
+            $mensagem_erro = "Por favor, faça login para acessar o painel administrativo.";
+            break;
+    }
+}
+
+$mensagem_sucesso = "";
+if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'cadastrado') {
+    $mensagem_sucesso = "Administrador cadastrado com sucesso! Faça seu login.";
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -37,6 +70,19 @@
         </div>
 
         <div class="form-side">
+            
+            <?php if (!empty($mensagem_erro)): ?>
+                <div style="background-color: #fca5a5; color: #7f1d1d; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-size: 14px; font-weight: bold; border: 1px solid #f87171;">
+                    <i class="fas fa-exclamation-triangle"></i> <?php echo $mensagem_erro; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($mensagem_sucesso)): ?>
+                <div style="background-color: #86efac; color: #14532d; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-size: 14px; font-weight: bold; border: 1px solid #4ade80;">
+                    <i class="fas fa-check-circle"></i> <?php echo $mensagem_sucesso; ?>
+                </div>
+            <?php endif; ?>
+
             <div id="login-section">
                 <h2 class="form-title">Acesso Restrito</h2>
                 <p class="form-subtitle">PAINEL DE CONTROLE</p>
@@ -74,7 +120,6 @@
 </footer>
 
 <script>
-    // Função que alterna a exibição entre as telas de login e cadastro
     function toggleForm(mode) {
         const loginSection = document.getElementById('login-section');
         const signupSection = document.getElementById('signup-section');
@@ -94,18 +139,13 @@
         }
     }
 
-    // CÓDIGO NOVO INTEGRADO: Lê os parâmetros da URL para exibir mensagens de erro amigáveis
+    // Mantém a aba certa aberta caso o erro seja originado no cadastro
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('erro')) {
             const erro = urlParams.get('erro');
             if (erro === 'email_existe') {
-                alert('Atenção: Este e-mail já está cadastrado como administrador!');
-                toggleForm('signup'); // Já abre na aba de cadastro para o usuário corrigir
-            } else if (erro === 'senha_incorreta') {
-                alert('Erro: Senha incorreta! Tente novamente.');
-            } else if (erro === 'usuario_inexistente') {
-                alert('Erro: Administrador não encontrado com este e-mail.');
+                toggleForm('signup');
             }
         }
     }

@@ -4,16 +4,24 @@ session_start();
 // CORREÇÃO AQUI: Voltando duas pastas para encontrar o config.php na raiz
 include_once('../config.php');
 
+// Verifica de forma rigorosa se a sessão do e-mail do usuário está ativa
+$usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario_email'])) ? true : false;
+
 // Verifica se a requisição veio do JavaScript para salvar no banco
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
-    // Garante que a conexão existe antes de tratar os dados
+    // Só deixa salvar se estiver logado de verdade por segurança no backend
+    if (!$usuarioLogado) {
+        echo json_encode(['status' => 'erro', 'detalhes' => 'Sessão inválida.']);
+        exit();
+    }
+
     if (isset($conexao)) {
         $nome = mysqli_real_escape_string($conexao, $_POST['nome']);
         $modelo = mysqli_real_escape_string($conexao, $_POST['modelo']);
         $defeito = mysqli_real_escape_string($conexao, $_POST['defeito']);
         $data_solicitacao = date('Y-m-d H:i:s');
 
-        // Insere na tabela 'orcamentos' que existe no seu banco
+        // Insere na tabela 'orcamentos'
         $query = "INSERT INTO orcamentos (nome, modelo, defeito, data_solicitacao) VALUES ('$nome', '$modelo', '$defeito', '$data_solicitacao')";
         
         if (mysqli_query($conexao, $query)) {
@@ -35,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
     <title>Oliver'CelL - Orçamento</title>
     <link rel="icon" href="../imagens/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../Css/orcamento.css">
+    <link rel="stylesheet" href="../css/orcamento.css?v=2">
 </head>
 <body>
 
@@ -61,18 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
             <h2 class="form-title">Dados do Aparelho</h2>
             <p class="form-subtitle">Preencha abaixo os detalhes</p>
             
-            <form id="orcamentoForm">
+            <form id="orcamentoForm" onsubmit="event.preventDefault(); verificarOrcamento();">
                 <input type="text" id="nome" class="form-input" placeholder="Seu Nome" required>
                 <input type="text" id="modelo" class="form-input" placeholder="Modelo do Aparelho" required>
                 <textarea id="defeito" class="form-input" placeholder="O que aconteceu com o aparelho?" rows="4" required></textarea>
                 
                 <div class="cta-section">
-                    <a href="../Clientes/Login.php" class="auth-btn btn-perfil-verde">
-                        <i class="fab fa-whatsapp"></i> fazer Login
-                   </a>
+                    <button type="submit" class="auth-btn btn-perfil-verde" style="border: none; cursor: pointer; width: 100%;">
+                        <i class="fab fa-whatsapp"></i> PEDIR ORÇAMENTO VIA WHATSAPP
+                    </button>
 
-                    <a href="servicos.html" class="auth-btn btn-perfil-vermelho">
-                        <i class="fas fa-user-circle"></i> VOLTAR PARA O MEU PERFIL
+                    <a href="../index.php" class="auth-btn btn-perfil-vermelho" style="text-align: center;">
+                        <i class="fas fa-arrow-left"></i> VOLTAR PARA O INÍCIO
                     </a>
                 </div>
             </form>
@@ -82,10 +90,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
 </main>
 
 <footer>
-    <p>&copy; <?php echo date('Y'); ?> Oliver'CelL - Todos os direitos reservados.</p>
+    <p>&copy; 2026 Oliver'CelL - Todos os direitos reservados.</p>
 </footer>
 
 <script>
+// Transforma a validação do PHP em uma constante booleana do JS
+const usuarioEstaLogado = <?php echo $usuarioLogado ? 'true' : 'false'; ?>;
+
+function verificarOrcamento() {
+    // 🚨 TRAVA DE SEGURANÇA REPETINDO EXATAMENTE A MESMA FRASE E AÇÃO
+    if (!usuarioEstaLogado) {
+        alert("Para adicionar produtos ao carrinho e garantir os seus acessórios, você precisa fazer o login ou criar o seu cadastro primeiro!");
+        window.location.href = window.location.origin + "/OliverCell/Clientes/Login.php";
+        return;
+    }
+
+    // Se estiver logado, segue o fluxo natural de envio do formulário
+    gerarOrcamento();
+}
+
 function gerarOrcamento() {
     const nome = document.getElementById('nome').value.trim();
     const modelo = document.getElementById('modelo').value.trim();
@@ -109,7 +132,7 @@ function gerarOrcamento() {
     })
     .then(response => response.json())
     .then(data => {
-        const meuNumero = "556191857131";
+        const meuNumero = "5561991857131"; // Atualizado com o 9 extra de telefone corrigido
         const textoFinal = `*NOVO ORÇAMENTO - OLIVER'CELL* 📱\n\n` +
                            `*Cliente:* ${nome}\n` +
                            `*Aparelho:* ${modelo}\n` +
@@ -118,7 +141,6 @@ function gerarOrcamento() {
 
         const url = `https://wa.me/${meuNumero}?text=${encodeURIComponent(textoFinal)}`;
         
-        // Abre o WhatsApp independentemente se o banco salvou ou falhou
         if(data.status === 'sucesso') {
             window.open(url, '_blank');
         } else {
@@ -128,8 +150,8 @@ function gerarOrcamento() {
     })
     .catch(error => {
         console.error("Erro na requisição:", error);
-        // Fallback de segurança para não perder o cliente caso o servidor caia
-        const meuNumero = "556191857131";
+        // Fallback para abrir o WhatsApp mesmo em caso de erro de conexão
+        const meuNumero = "5561991857131";
         const textoFinal = `*NOVO ORÇAMENTO - OLIVER'CELL* 📱\n\n*Cliente:* ${nome}\n*Aparelho:* ${modelo}\n*Problema:* ${defeito}`;
         window.open(`https://wa.me/${meuNumero}?text=${encodeURIComponent(textoFinal)}`, '_blank');
     });

@@ -1,9 +1,11 @@
-/* CONFIGURAÇÕES DE BASE */
+/* ==========================================================================
+   1. CONFIGURAÇÕES DE BASE
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
 }
 
 body {
@@ -14,7 +16,9 @@ body {
     flex-direction: column;
 }
 
-/* HEADER COM BORDA DOURADA FIXA NO TOPO */
+/* ==========================================================================
+   2. HEADER COM BORDA DOURADA FIXA NO TOPO
+   ========================================================================== */
 .header {
     background: rgba(0, 0, 0, 0.95);
     padding: 15px 0;
@@ -27,87 +31,55 @@ body {
 
 .header-container {
     display: flex;
-    justify-content: space-between; /* Elementos nos cantos */
+    justify-content: space-between; /* Elementos nos cantos (Logo na esquerda, Menu na direita) */
     align-items: center;
     max-width: 95%;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-.logo-link { display: flex; align-items: center; text-decoration: none; gap: 10px; }
-.logo-img { height: 50px; }
-.logo-text { font-size: 1.8rem; color: #ffcc00; font-weight: bold; }
-.logo-text span { color: #fff; }
+.logo-link { 
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    gap: 10px; 
+}
 
-nav ul { display: flex; list-style: none; gap: 25px; }
-nav a { color: white; text-decoration: none; transition: 0.3s; }
-nav a:hover { color: #ffcc00; }
+.logo-img { 
+    height: 50px; 
+}
 
-/* BANNER COM A IMAGEM DE FUNDO (logo.png) */
-.banner {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
+.logo-text { 
+    font-size: 1.8rem; 
+    color: #ffcc00; 
+    font-weight: bold; 
+}
+
+.logo-text span { 
+    color: #fff; 
+}
+
+nav ul { 
+    display: flex; 
+    list-style: none; 
+    gap: 25px; 
     align-items: center;
-    text-align: center;
-    /* O caminho '../' sai da pasta Css e entra na pasta imagens */
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
-                url('../imagens/logo.png'); 
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain; /* Garante que a logo apareça inteira */
 }
 
-.banner-content h1 {
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
-    text-transform: uppercase;
-    font-weight: 900;
+nav a { 
+    color: white; 
+    text-decoration: none; 
+    font-weight: 500;
+    transition: 0.3s; 
 }
 
-.btn-solicitar {
-    display: inline-block;
-    background: #ffcc00;
-    color: #000;
-    padding: 18px 45px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;
-    animation: pulse 2s infinite;
+nav a:hover { 
+    color: #ffcc00; 
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 204, 0, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
-}
-
-/* RODAPÉ COM BORDA DOURADA FIXA EMBAIXO */
-footer {
-    padding: 25px 0;
-    text-align: center;
-    background: #000;
-    border-top: 2px solid #ffcc00; /* Borda Dourada */
-    margin-top: auto;
-}
-
-.whatsapp-float {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: #25d366;
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 35px;
-    z-index: 2000;
-}
-/* Estilo do Botão de Login Dourado */
+/* ==========================================================================
+   3. BOTÃO DE LOGIN DOURADO INTERNO DO MENU
+   ========================================================================== */
 .btn-login {
     background-color: #ffcc00 !important; /* Cor Dourada */
     color: #000 !important;             /* Texto Preto para contraste */
@@ -127,4 +99,156 @@ footer {
     background-color: transparent !important;
     color: #ffcc00 !important;
     transform: scale(1.05);
+}
+
+/* ==========================================================================
+   4. BANNER COM A IMAGEM DE FUNDO (logo.png)
+   ========================================================================== */
+.banner {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* O caminho '../' sai da pasta Css e entra na pasta imagens */
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                url('../imagens/logo.png'); 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain; /* Garante que a logo apareça inteira */
+}
+
+.banner-content {
+    padding: 0 20px;
+}
+
+.banner-content h1 {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   5. BOTÃO PULSANTE "SOLICITAR"
+   ========================================================================== */
+.btn-solicitar {
+    display: inline-block;
+    background: #ffcc00;
+    color: #000;
+    padding: 18px 45px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+    animation: pulse 2s infinite;
+}
+
+.btn-solicitar:hover {
+    background: #ffffff;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 204, 0, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
+}
+
+/* ==========================================================================
+   6. UTILIÁRIOS, FOOTER & WHATSAPP FLUTUANTE
+   ========================================================================== */
+footer {
+    padding: 25px 0;
+    text-align: center;
+    background: #000;
+    border-top: 2px solid #ffcc00; /* Borda Dourada */
+    margin-top: auto;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #25d366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    z-index: 2000;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+/* ==========================================================================
+   7. REGRAS DE RESPONSIVIDADE (MOBILE / TABLET)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header {
+        position: static; /* No mobile, evita cobrir o conteúdo caso a tela seja muito pequena */
+        padding: 15px 0;
+    }
+
+    .header-container {
+        flex-direction: column; /* Organiza logo e menu empilhados no centro */
+        gap: 15px;
+        text-align: center;
+    }
+
+    .logo-img {
+        height: 40px;
+    }
+
+    .logo-text {
+        font-size: 1.5rem;
+    }
+
+    nav ul {
+        gap: 15px;
+        flex-wrap: wrap; /* Permite que os links quebrem linha se faltar espaço */
+        justify-content: center;
+        padding: 0;
+    }
+
+    nav a {
+        font-size: 0.9rem;
+    }
+
+    .btn-login {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+
+    .banner {
+        height: calc(100vh - 120px); /* Compensa a altura do header empilhado no mobile */
+        background-size: 85% auto; /* Reduz levemente a logo no fundo para não cortar nas laterais */
+    }
+
+    .btn-solicitar {
+        padding: 14px 30px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 280px; /* Impede o botão de esticar excessivamente */
+    }
+
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+        bottom: 20px;
+        right: 20px;
+    }
 }

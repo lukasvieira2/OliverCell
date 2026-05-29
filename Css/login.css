@@ -1,9 +1,11 @@
-/* --- CONFIGURAÇÕES GERAIS --- */
+/* ==========================================================================
+   1. CONFIGURAÇÕES GERAIS E RESET
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
 }
 
 body {
@@ -18,7 +20,9 @@ body {
     display: none !important;
 }
 
-/* --- HEADER CENTRALIZADO --- */
+/* ==========================================================================
+   2. HEADER CENTRALIZADO
+   ========================================================================== */
 .header {
     background: #000;
     padding: 20px 0;
@@ -54,7 +58,9 @@ body {
     color: #fff;
 }
 
-/* --- CONTAINER DE LOGIN (AMPLIADO E RETO) --- */
+/* ==========================================================================
+   3. CONTAINER DE LOGIN (AMPLIADO E RETO)
+   ========================================================================== */
 .main-content {
     flex: 1;
     display: flex;
@@ -125,7 +131,9 @@ body {
     font-size: 0.9rem;
 }
 
-/* --- INPUTS E BOTÕES RETOS --- */
+/* ==========================================================================
+   4. INPUTS E BOTÕES RETOS
+   ========================================================================== */
 .form-input {
     width: 100%;
     padding: 16px;
@@ -194,18 +202,83 @@ body {
     color: #000;
 }
 
-/* --- FOOTER --- */
+/* ==========================================================================
+   5. FOOTER
+   ========================================================================== */
 footer {
     padding: 25px 0;
     background: #000;
     text-align: center;
     border-top: 2px solid #ffcc00;
     margin-top: auto;
+    font-size: 0.85rem;
+    color: #666;
 }
 
-/* RESPONSIVIDADE */
+/* ==========================================================================
+   6. REGRAS DE RESPONSIVIDADE (MOBILE / TABLET)
+   ========================================================================== */
 @media (max-width: 850px) {
-    .auth-container { flex-direction: column; }
-    .info-side { border-right: none; border-bottom: 2px solid #ffcc00; }
-    .btn-group { flex-direction: column; }
+    .header {
+        padding: 15px 0;
+    }
+
+    .logo-img {
+        height: 45px; /* Reduz ligeiramente a logo no celular */
+    }
+
+    .logo-text {
+        font-size: 1.6rem;
+    }
+
+    .main-content {
+        padding: 30px 15px; /* Reduz margens externas */
+    }
+
+    .auth-container {
+        flex-direction: column;
+        min-height: auto; /* Permite que a altura se ajuste aos elementos empilhados */
+    }
+
+    .info-side {
+        border-right: none;
+        border-bottom: 2px solid #ffcc00; /* Linha de divisão passa a ser horizontal */
+        padding: 35px 20px;
+    }
+
+    .info-side h3 {
+        font-size: 1.5rem;
+    }
+
+    .info-side p {
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+    }
+
+    .form-side {
+        padding: 45px 20px;
+    }
+
+    .form-title {
+        font-size: 1.9rem;
+    }
+
+    .form-subtitle {
+        margin-bottom: 25px;
+    }
+
+    .form-input {
+        padding: 14px;
+        font-size: 0.95rem;
+    }
+
+    .btn-group {
+        flex-direction: column; /* Botões Entrar e Cancelar ficam um sob o outro */
+        gap: 12px;
+    }
+
+    .auth-btn {
+        padding: 15px;
+        width: 100%;
+    }
 }

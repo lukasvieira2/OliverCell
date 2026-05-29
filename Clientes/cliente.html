@@ -1,20 +1,3 @@
-<?php
-session_start();
-
-// 1. Busca o config na raiz para resolver o erro da imagem 2
-$config_path = __DIR__ . '/../config.php';
-if (file_exists($config_path)) {
-    include_once($config_path);
-}
-
-// 2. Proteção: Se não houver sessão, volta para o login
-if (!isset($_SESSION['usuario_nome'])) {
-    header("Location: ../Login.php");
-    exit();
-}
-
-$nomeCompleto = $_SESSION['usuario_nome'];
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -32,7 +15,7 @@ $nomeCompleto = $_SESSION['usuario_nome'];
     <div class="header-container">
         <a href="cliente.html" class="logo-link">
             <img src="../imagens/logo.png" alt="Logo" class="logo-img">
-            <span class="logo-text">Oliver'<span>Cell</span></span>
+            <span class="logo-text">Oliver'<span>CelL</span></span>
         </a>
     
         <nav class="nav-principal">
@@ -62,11 +45,9 @@ $nomeCompleto = $_SESSION['usuario_nome'];
     <div class="banner-content">
         <h1>OLIVER'CELL</h1>
         <p style="color: #ffcc00; font-weight: bold; text-transform: uppercase; margin-top: 15px; font-size: 1.5rem;">
-            BEM-VINDO, <?php echo htmlspecialchars($nomeCompleto); ?>!
+            BEM-VINDO, <span id="nome-usuario">CLIENTE</span>!
         </p>
         <p style="margin-bottom: 25px;">Acesse suas informações e solicite reparos abaixo.</p>
-        
-       
     </div>
 </main>
 
@@ -74,9 +55,31 @@ $nomeCompleto = $_SESSION['usuario_nome'];
     <p>&copy; 2026 Oliver'CelL. Todos os direitos reservados.</p>
 </footer>
 
-<a href="https://wa.me/556193147906" class="whatsapp-float" target="_blank">
+<a href="https://wa.me/5561991857131" class="whatsapp-float" target="_blank">
     <i class="fab fa-whatsapp"></i>
 </a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Faz uma requisição para um arquivo que checa a sessão
+        fetch('../Php/sessao_usuario.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.logado) {
+                    // Preenche o nome do usuário na tela
+                    document.getElementById('nome-usuario').textContent = data.nome.toUpperCase();
+                } else {
+                    // Se não estiver logado, joga de volta para a tela de Login
+                    window.location.href = "../Login.php";
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao verificar sessão:", error);
+                // Fallback caso dê erro na requisição (opcional)
+                document.getElementById('nome-usuario').textContent = "USUÁRIO";
+            });
+    });
+</script>
 
 </body>
 </html>

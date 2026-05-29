@@ -1,9 +1,11 @@
-/* --- CONFIGURAÇÕES GERAIS --- */
+/* ==========================================================================
+   1. CONFIGURAÇÕES GERAIS E RESET
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
 }
 
 body {
@@ -14,7 +16,9 @@ body {
     flex-direction: column;
 }
 
-/* --- HEADER CENTRALIZADO --- */
+/* ==========================================================================
+   2. HEADER CENTRALIZADO
+   ========================================================================== */
 .header {
     background: #000;
     padding: 20px 0;
@@ -26,6 +30,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .logo-link {
@@ -35,11 +40,23 @@ body {
     gap: 15px;
 }
 
-.logo-img { height: 60px; }
-.logo-text { font-size: 2.2rem; color: #ffcc00; font-weight: bold; }
-.logo-text span { color: #fff; }
+.logo-img { 
+    height: 60px; 
+}
 
-/* --- CONTAINER (AMPLIADO E RETO) --- */
+.logo-text { 
+    font-size: 2.2rem; 
+    color: #ffcc00; 
+    font-weight: bold; 
+}
+
+.logo-text span { 
+    color: #fff; 
+}
+
+/* ==========================================================================
+   3. CONTAINER DE ORÇAMENTO (AMPLIADO E RETO)
+   ========================================================================== */
 .main-content {
     flex: 1;
     display: flex;
@@ -60,6 +77,7 @@ body {
     box-shadow: 0 0 40px rgba(255, 204, 0, 0.2);
 }
 
+/* LADO ESQUERDO (INFO) */
 .info-side {
     flex: 1;
     background: linear-gradient(135deg, #000 0%, #111 100%);
@@ -71,9 +89,20 @@ body {
     border-right: 2px solid #ffcc00;
 }
 
-.info-side h3 { font-size: 2rem; color: #ffcc00; margin-bottom: 15px; text-transform: uppercase; }
-.info-side p { color: #ccc; line-height: 1.6; font-size: 1.1rem; }
+.info-side h3 { 
+    font-size: 2rem; 
+    color: #ffcc00; 
+    margin-bottom: 15px; 
+    text-transform: uppercase; 
+}
 
+.info-side p { 
+    color: #ccc; 
+    line-height: 1.6; 
+    font-size: 1.1rem; 
+}
+
+/* LADO DIREITO (FORMULÁRIO) */
 .form-side {
     flex: 1.4;
     padding: 50px;
@@ -83,28 +112,49 @@ body {
     justify-content: center;
 }
 
-.form-title { font-size: 2.5rem; color: #fff; text-transform: uppercase; }
-.form-subtitle { color: #ffcc00; font-weight: bold; letter-spacing: 3px; margin-bottom: 35px; font-size: 0.9rem; }
+.form-title { 
+    font-size: 2.5rem; 
+    color: #fff; 
+    text-transform: uppercase; 
+}
 
-/* --- INPUTS E BOTÕES RETOS --- */
+.form-subtitle { 
+    color: #ffcc00; 
+    font-weight: bold; 
+    letter-spacing: 3px; 
+    margin-bottom: 35px; 
+    font-size: 0.9rem; 
+}
+
+/* ==========================================================================
+   4. INPUTS E SELECTS RETOS
+   ========================================================================== */
 .form-input {
     width: 100%;
     padding: 16px;
     margin-bottom: 15px;
     background: #0a0a0a;
     border: 1px solid #333;
-    border-radius: 2px;
+    border-radius: 2px; /* QUINAS RETAS */
     color: #fff;
     outline: none;
     font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
-.form-input:focus { border-color: #ffcc00; }
+.form-input:focus { 
+    border-color: #ffcc00; 
+}
 
-/* --- SEÇÃO DE AÇÃO --- */
+/* ==========================================================================
+   5. SEÇÃO DE AÇÃO E BOTÕES
+   ========================================================================== */
 .cta-section {
     margin-top: 10px;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .auth-btn {
@@ -113,11 +163,11 @@ body {
     background: #ffcc00;
     color: #000;
     border: none;
-    border-radius: 2px;
+    border-radius: 2px; /* QUINAS RETAS */
     font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -145,7 +195,7 @@ body {
 .btn-cancel, .btn-perfil-vermelho { 
     background: #cc0000 !important; 
     color: #fff !important; 
-    margin-top: 10px;
+    margin-top: 0px; /* Alinhado ao fluxo do gap do container parent */
 }
 
 .btn-cancel:hover, .btn-perfil-vermelho:hover { 
@@ -153,13 +203,17 @@ body {
     border: 1px solid #ffcc00; /* Destaque dourado no hover */
 }
 
-/* --- FOOTER --- */
+/* ==========================================================================
+   6. UTILS, FOOTER & ACESSÓRIOS FLUTUANTES
+   ========================================================================== */
 footer {
     padding: 25px 0;
     background: #000;
     text-align: center;
     border-top: 2px solid #ffcc00;
     margin-top: auto;
+    font-size: 0.85rem;
+    color: #666;
 }
 
 .whatsapp-float {
@@ -178,9 +232,79 @@ footer {
     text-decoration: none;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     z-index: 1000;
+    transition: transform 0.3s ease;
 }
 
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+/* ==========================================================================
+   7. REGRAS DE RESPONSIVIDADE (MOBILE / TABLET)
+   ========================================================================== */
 @media (max-width: 850px) {
-    .auth-container { flex-direction: column; }
-    .info-side { border-right: none; border-bottom: 2px solid #ffcc00; }
+    .header {
+        padding: 15px 0;
+    }
+
+    .logo-img {
+        height: 45px;
+    }
+
+    .logo-text {
+        font-size: 1.6rem;
+    }
+
+    .main-content {
+        padding: 30px 15px;
+    }
+
+    .auth-container { 
+        flex-direction: column; 
+        min-height: auto;
+    }
+
+    .info-side { 
+        border-right: none; 
+        border-bottom: 2px solid #ffcc00; 
+        padding: 35px 20px;
+    }
+
+    .info-side h3 {
+        font-size: 1.6rem;
+    }
+
+    .info-side p {
+        font-size: 0.95rem;
+    }
+
+    .form-side {
+        padding: 40px 20px;
+    }
+
+    .form-title {
+        font-size: 1.9rem;
+    }
+
+    .form-subtitle {
+        margin-bottom: 25px;
+    }
+
+    .form-input {
+        padding: 14px;
+        font-size: 0.95rem;
+    }
+
+    .auth-btn {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        bottom: 20px;
+        right: 20px;
+    }
 }

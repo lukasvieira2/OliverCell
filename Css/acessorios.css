@@ -229,6 +229,7 @@ footer {
     color: #666;
     background-color: #000;
 }
+
 /* Estilo do Botão de Login Dourado */
 .btn-login {
     background-color: #ffcc00 !important; /* Cor Dourada */
@@ -242,4 +243,75 @@ footer {
     gap: 8px;
     transition: all 0.3s ease;
     border: 2px solid #ffcc00;
+}
+
+/* ==========================================================================
+   6. REGRAS DE RESPONSIVIDADE (PC vs CELULAR)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px 0;
+    }
+
+    .header-container {
+        flex-direction: column; /* Alinha logo e menu verticalmente em telas pequenas */
+        gap: 12px;
+        text-align: center;
+    }
+
+    .nav-principal .menu-main {
+        gap: 12px;
+        flex-wrap: wrap; /* Permite que os links quebrem linha se faltar espaço */
+        justify-content: center;
+    }
+
+    .nav-principal .menu-main > li > a {
+        font-size: 0.85rem;
+    }
+
+    .btn-login {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+    }
+
+    .premium-title-section {
+        margin-top: 170px; /* Compensa o tamanho maior do cabeçalho em bloco no celular */
+        margin-bottom: 25px;
+        padding: 0 15px;
+    }
+
+    .premium-title-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .products-grid {
+        /* Reduz o limite mínimo do card para caber perfeitamente em telas finas */
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+        padding: 0 5px;
+    }
+
+    .card-produto {
+        padding: 12px;
+    }
+
+    .card-produto .img-container {
+        height: 130px;
+    }
+
+    .card-produto h3 {
+        font-size: 0.9rem;
+    }
+
+    .card-produto p {
+        font-size: 0.75rem;
+    }
+    
+    .whatsapp-float {
+        width: 48px;
+        height: 48px;
+        font-size: 1.5rem;
+        bottom: 15px;
+        right: 15px;
+    }
 }

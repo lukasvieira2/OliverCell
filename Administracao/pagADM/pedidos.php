@@ -3,7 +3,8 @@ session_start();
 
 // Proteção da página: impede acessos diretos sem autenticação válida
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: ../loginADM.html");
+    // CORREÇÃO: Para sair de 'pagADM' e ir para a raiz buscar 'loginADM.html', voltamos duas pastas
+    header("Location: ../../loginADM.html");
     exit();
 }
 
@@ -18,6 +19,7 @@ if (isset($_GET['acao']) && isset($_GET['id'])) {
     $acao = $_GET['acao'];
     $pagina_retorno = (int)($_GET['pagina'] ?? 1);
 
+    // SEGURANÇA: Evita SQL Injection garantindo que as ações executadas sejam estritamente as esperadas
     if ($acao === 'confirmar') {
         $query_update = "UPDATE pedidos SET status = 'Confirmado' WHERE id = $id_pedido";
         mysqli_query($conexao, $query_update);
@@ -43,11 +45,11 @@ $total_pedidos = 0;
 $query_total = "SELECT COUNT(id) AS total FROM pedidos";
 if ($res_total = mysqli_query($conexao, $query_total)) {
     $row_total = mysqli_fetch_assoc($res_total);
-    $total_pedidos = $row_total['total'];
+    $total_pedidos = (int)$row_total['total'];
 }
 $total_paginas = ceil($total_pedidos / $limite);
 
-// QUERY DOS PEDIDOS: Busca os dados puros da tabela pedidos (evita erros de coluna)
+// QUERY DOS PEDIDOS: Busca os dados puros da tabela pedidos
 $query_pedidos = "SELECT * FROM pedidos ORDER BY id DESC LIMIT $limite OFFSET $offset";
 
 try {
@@ -80,10 +82,10 @@ try {
                 <a href="../indexADM.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                     <i class="fas fa-user mr-3"></i> Usuários
                 </a>
-                <a href="servicos.html.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
+                <a href="servicos.html" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                    <i class="fas fa-tools mr-3"></i> Serviços
                 </a>
-                <a href="produto.html.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
+                <a href="produto.html" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                     <i class="fas fa-box mr-3"></i> Produtos
                 </a>
                 <a href="orcamento.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
@@ -130,19 +132,16 @@ try {
                         <?php while ($pedido = mysqli_fetch_assoc($resultado_pedidos)): ?>
                             
                             <?php 
-                            // Buscando os itens e o nome do cliente que está guardado dentro de 'itens_pedido'
-                            $id_pedido_atual = $pedido['id'];
+                            $id_pedido_atual = (int)$pedido['id'];
                             $query_itens = "SELECT * FROM itens_pedido WHERE pedido_id = $id_pedido_atual";
                             $resultado_itens = mysqli_query($conexao, $query_itens);
                             
-                            // Variável para armazenar o nome temporariamente
                             $nome_cliente_detectado = 'Cliente não informado';
                             $itens_array = [];
                             
                             if ($resultado_itens && mysqli_num_rows($resultado_itens) > 0) {
                                 while ($item_row = mysqli_fetch_assoc($resultado_itens)) {
                                     $itens_array[] = $item_row;
-                                    // Captura o nome do cliente presente no primeiro item encontrado
                                     if (!empty($item_row['nome_cliente'])) {
                                         $nome_cliente_detectado = trim($item_row['nome_cliente'] . ' ' . ($item_row['sobrenome_cliente'] ?? ''));
                                     }

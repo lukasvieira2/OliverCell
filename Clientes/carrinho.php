@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('../config.php');
+include_once('../config.php'); // Caminho correto: sobe 1 nível para achar o config.php na raiz
 
 // Pega o e-mail da sessão se o usuário estiver logado
 $emailUsuario = isset($_SESSION['usuario_email']) ? $_SESSION['usuario_email'] : '';
@@ -34,7 +34,7 @@ if (!empty($emailUsuario)) {
 
     <header class="header">
         <div class="header-container">
-            <a href="carrinho.php" class="logo-link">
+            <a href="cliente.html" class="logo-link">
                 <img src="../imagens/logo.png" alt="Logo" class="logo-img">
                 <span class="logo-text">Oliver'<span>CelL</span></span>
             </a>
@@ -198,7 +198,6 @@ if (!empty($emailUsuario)) {
                 return;
             }
 
-            // Resgata e valida o nome e sobrenome informados
             const nomeCliente = document.getElementById('cliente_nome').value.trim();
             const sobrenomeCliente = document.getElementById('cliente_sobrenome').value.trim();
             const formaPagamento = document.getElementById('forma_pagamento').value;
@@ -208,6 +207,7 @@ if (!empty($emailUsuario)) {
                 return;
             }
 
+            // Aponta para a pasta global Php/ da raiz do projeto
             fetch('../Php/salvar_pedido.php', {
                 method: 'POST',
                 headers: {
@@ -217,7 +217,7 @@ if (!empty($emailUsuario)) {
                     cliente_id: clienteIdLogado,
                     carrinho: carrinho,
                     forma_pagamento: formaPagamento,
-                    nome_cliente: nomeCliente, // Enviando se precisar salvar no BD
+                    nome_cliente: nomeCliente,
                     sobrenome_cliente: sobrenomeCliente
                 })
             })
@@ -225,7 +225,6 @@ if (!empty($emailUsuario)) {
             .then(data => {
                 if (data.sucesso) {
                     let totalGeral = 0;
-                    // Adicionado o nome do cliente no topo da mensagem
                     let mensagem = `Olá Oliver'CelL! Meu nome é *${nomeCliente} ${sobrenomeCliente}*.\n`;
                     mensagem += `Gostaria de encomendar (Pedido Nº #${data.pedido_id}):\n\n`;
                     

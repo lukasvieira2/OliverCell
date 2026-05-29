@@ -1,42 +1,45 @@
 <?php
 session_start();
-include_once('../../config.php'); // Caminho corrigido para voltar 2 níveis
+include_once('../../config.php'); // Voltando 2 níveis para achar o config.php na raiz do projeto
 
+// Verifica se o usuário está logado
 if (!isset($_SESSION['usuario_email'])) {
+    // CORREÇÃO: Caminho do arquivo com L maiúsculo conforme a árvore do sistema
     header("Location: ../Login.php");
     exit();
 }
 
 $emailUsuario = $_SESSION['usuario_email'];
-$diretorio = "../uploads/"; 
 
-// --- NOVA LÓGICA: EXCLUSÃO DE PEDIDO CONCLUÍDO ---
+// --- LÓGICA DE EXCLUSÃO DE PEDIDO CONCLUÍDO ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_pedido_id'])) {
     $pedidoIdParaExcluir = intval($_POST['excluir_pedido_id']);
     
-    // Primeiro deletamos os itens do pedido para não quebrar a chave estrangeira (se houver)
+    // 1. Deleta os itens vinculados ao pedido primeiro (Garante integridade referencial)
     mysqli_query($conexao, "DELETE FROM itens_pedido WHERE pedido_id = $pedidoIdParaExcluir");
     
-    // Depois deletamos o pedido em si
+    // 2. Deleta o registro do pedido principal
     mysqli_query($conexao, "DELETE FROM pedidos WHERE id = $pedidoIdParaExcluir");
     
-    // Recarrega a página para atualizar a lista
+    // Recarrega a página para atualizar a lista instantaneamente
     header("Location: pedidos.php");
     exit();
 }
 
-// BUSCA DADOS DO USUÁRIO
+// BUSCA DADOS DO USUÁRIO LOGADO
 $query = "SELECT id, nome, foto FROM usuarios WHERE email = '$emailUsuario'";
 $resultado = mysqli_query($conexao, $query);
 $dados = mysqli_fetch_assoc($resultado);
 
 $usuarioId = isset($dados['id']) ? intval($dados['id']) : 0;
 $nomeCompleto = $dados['nome'] ?? "Usuário";
+
+// Tratamento do caminho da foto: subindo 1 nível para acessar 'Clientes/uploads/'
 $fotoBD = !empty($dados['foto']) ? "../uploads/" . $dados['foto'] : "";
 $primeiroNome = explode(' ', trim($nomeCompleto))[0];
 $inicialNome = !empty($primeiroNome) ? strtoupper(substr($primeiroNome, 0, 1)) : "U";
 
-// FILTRO EXCLUSIVO: Carrega apenas itens que foram 'Entregues' ou 'Concluídos'
+// FILTRO: Carrega apenas itens que foram finalizados pelo administrador
 $query_historico = "SELECT * FROM pedidos WHERE cliente_id = $usuarioId AND status IN ('Entregue', 'Concluído', 'Concluido') ORDER BY id DESC";
 $resultado_historico = mysqli_query($conexao, $query_historico);
 $total_concluidos = 0;
@@ -44,14 +47,13 @@ if ($resultado_historico) {
     $total_concluidos = mysqli_num_rows($resultado_historico);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico de Pedidos - Oliver'CelL</title>
-    <link class="icon" href="../../imagens/logo.png" type="image/png">
+    <link class="icon" rel="icon" href="../../imagens/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../../Css/perfil.css">
     <style>
@@ -154,7 +156,9 @@ if ($resultado_historico) {
 
                                 <div class="pedido-header">
                                     <span class="pedido-codigo">CÓDIGO: #<?php echo $pedido['id']; ?></span>
-                                    <span class="pedido-status status-concluido"><i class="fas fa-box-open"></i> Entregue</span>
+                                    <span class="pedido-status status-concluido">
+                                        <i class="fas fa-box-open"></i> <?php echo htmlspecialchars($pedido['status']); ?>
+                                    </span>
                                 </div>
                                 
                                 <div class="pedido-itens">
@@ -180,7 +184,7 @@ if ($resultado_historico) {
                 <?php endif; ?>
             </div>
 
-            <button onclick="window.location.href='../Perfil.php'" class="btn-voltar" style="margin-top: 25px; border-color: #ffcc00; color: #ffcc00;">VOLTAR AO PERFIL</button>
+            <button onclick="window.location.href='../Perfil.php'" class="btn-voltar" style="margin-top: 25px; border-color: #ffcc00; color: #ffcc00; background: transparent; cursor: pointer;">VOLTAR AO PERFIL</button>
         </div>
     </div>
 </main>

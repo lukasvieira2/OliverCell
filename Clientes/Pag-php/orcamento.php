@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// CORREÇÃO AQUI: Voltando duas pastas para encontrar o config.php na raiz
+// Voltando duas pastas para encontrar o config.php que está na raiz do projeto (Conforme Imagem 1 e 2)
 include_once('../../config.php');
 
-// Verifica se a requisição veio do JavaScript para salvar no banco
+// Verifica se a requisição veio do JavaScript via AJAX para salvar no banco
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
     // Garante que a conexão existe antes de tratar os dados
     if (isset($conexao)) {
@@ -12,9 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
         $modelo = mysqli_real_escape_string($conexao, $_POST['modelo']);
         $defeito = mysqli_real_escape_string($conexao, $_POST['defeito']);
         $data_solicitacao = date('Y-m-d H:i:s');
+        $status = 'Pendente'; // Alinhado com a coluna default da estrutura do banco (Imagem 3)
 
-        // Insere na tabela 'orcamentos' que existe no seu banco
-        $query = "INSERT INTO orcamentos (nome, modelo, defeito, data_solicitacao) VALUES ('$nome', '$modelo', '$defeito', '$data_solicitacao')";
+        // Insere na tabela 'orcamentos' mapeando todas as colunas obrigatórias
+        $query = "INSERT INTO orcamentos (nome, modelo, defeito, data_solicitacao, status) 
+                  VALUES ('$nome', '$modelo', '$defeito', '$data_solicitacao', '$status')";
         
         if (mysqli_query($conexao, $query)) {
             echo json_encode(['status' => 'sucesso']);
@@ -22,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
             echo json_encode(['status' => 'erro', 'detalhes' => mysqli_error($conexao)]);
         }
     } else {
-        echo json_encode(['status' => 'erro', 'detalhes' => 'Conexão com o banco falhou.']);
+        echo json_encode(['status' => 'erro', 'detalhes' => 'Conexão com o banco de dados falhou.']);
     }
     exit(); 
 }
@@ -33,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oliver'CelL - Orçamento</title>
-    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link class="favicon" rel="icon" href="../../imagens/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../../Css/orcamento.css">
 </head>
@@ -82,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_orcamento'])) {
 </main>
 
 <footer>
-    <p>&copy; <?php echo date('Y'); ?> Oliver'CelL - Todos os direitos reservados.</p>
+    <p>&copy; 2026 Oliver'CelL - Todos os direitos reservados.</p>
 </footer>
 
 <script>
@@ -102,14 +104,15 @@ function gerarOrcamento() {
     formData.append('modelo', modelo);
     formData.append('defeito', defeito);
 
-    // Envia os dados para salvar no banco em background
+    // Envia os dados assincronamente para a própria página executar o bloco PHP lá de cima
     fetch(window.location.href, {
         method: 'POST',
         body: formData
     })
     .then(response => response.json())
     .then(data => {
-        const meuNumero = "556191857131";
+        // Número configurado corretamente com o 9 para o DDD 61
+        const meuNumero = "5561991857131"; 
         const textoFinal = `*NOVO ORÇAMENTO - OLIVER'CELL* 📱\n\n` +
                            `*Cliente:* ${nome}\n` +
                            `*Aparelho:* ${modelo}\n` +
@@ -118,18 +121,17 @@ function gerarOrcamento() {
 
         const url = `https://wa.me/${meuNumero}?text=${encodeURIComponent(textoFinal)}`;
         
-        // Abre o WhatsApp independentemente se o banco salvou ou falhou
         if(data.status === 'sucesso') {
             window.open(url, '_blank');
         } else {
-            console.error("Erro interno ao salvar no banco:", data.detalhes);
-            window.open(url, '_blank');
+            console.error("Erro ao salvar no banco:", data.detalhes);
+            window.open(url, '_blank'); // Abre o WhatsApp mesmo se o banco falhar para você não perder o cliente
         }
     })
     .catch(error => {
-        console.error("Erro na requisição:", error);
-        // Fallback de segurança para não perder o cliente caso o servidor caia
-        const meuNumero = "556191857131";
+        console.error("Erro na requisição AJAX:", error);
+        // Fallback de segurança caso a rede caia completamente
+        const meuNumero = "5561991857131";
         const textoFinal = `*NOVO ORÇAMENTO - OLIVER'CELL* 📱\n\n*Cliente:* ${nome}\n*Aparelho:* ${modelo}\n*Problema:* ${defeito}`;
         window.open(`https://wa.me/${meuNumero}?text=${encodeURIComponent(textoFinal)}`, '_blank');
     });

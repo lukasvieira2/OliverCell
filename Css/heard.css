@@ -1,5 +1,5 @@
 /* ==========================================================================
-   2. HEADER E NAVEGAÇÃO (LOGO NA ESQUERDA E MENU NA DIREITA)
+   2. HEADER E NAVEGAÇÃO (LOGO NA ESQUERDA E MENU NA DIREITA) - DESKTOP
    ========================================================================== */
 .header {
     background-color: #000000;
@@ -62,6 +62,7 @@
 .nav-principal .menu-main > li > a.active {
     color: #ffcc00;
 }
+
 /* Estilo do Botão de Login Dourado */
 .btn-login {
     background-color: #ffcc00 !important; /* Cor Dourada */
@@ -75,4 +76,46 @@
     gap: 8px;
     transition: all 0.3s ease;
     border: 2px solid #ffcc00;
+}
+
+/* ==========================================================================
+   3. REGRAS DE RESPONSIVIDADE (CELULAR / DISPOSITIVOS MÓVEIS)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px 0;
+        position: static; /* Opcional: Se preferir que ele não fique colado no topo no mobile, mude para static. Caso queira fixo, mantenha fixed */
+    }
+
+    .header-container {
+        flex-direction: column; /* Joga o menu para baixo da logo de forma organizada */
+        gap: 12px;
+        text-align: center;
+    }
+
+    .logo-link {
+        font-size: 1.4rem; /* Diminui levemente o tamanho do texto da logo */
+    }
+
+    .logo-img {
+        height: 35px; /* Reduz ligeiramente a imagem do logo */
+    }
+
+    .nav-principal .menu-main {
+        gap: 12px;
+        flex-wrap: wrap; /* Caso os links fiquem apertados, eles quebram linha suavemente */
+        justify-content: center;
+        padding: 0;
+    }
+
+    .nav-principal .menu-main > li > a {
+        font-size: 0.85rem; /* Diminui a fonte para se adequar a telas menores */
+        padding: 5px 8px;
+    }
+
+    .btn-login {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        gap: 6px;
+    }
 }

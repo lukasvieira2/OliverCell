@@ -2,8 +2,9 @@
 session_start();
 include_once('../config.php');
 
+// CORREÇÃO: Se não houver sessão, vai para o login.php correto que fica na mesma pasta
 if (!isset($_SESSION['usuario_email'])) {
-    header("Location: ../Login.php");
+    header("Location: login.php");
     exit();
 }
 
@@ -23,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (file_exists($arquivo)) unlink($arquivo);
             mysqli_query($conexao, "UPDATE usuarios SET foto = NULL WHERE email = '$emailUsuario'");
         }
-        header("Location: Perfil.php");
+        header("Location: perfil.php");
         exit();
     }
 
@@ -43,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($imagemFinal) {
         mysqli_query($conexao, "UPDATE usuarios SET foto = '$imagemFinal' WHERE email = '$emailUsuario'");
-        header("Location: Perfil.php");
+        header("Location: perfil.php");
         exit();
     }
 }
@@ -59,7 +60,7 @@ $fotoBD = !empty($dados['foto']) ? "uploads/" . $dados['foto'] : "";
 $primeiroNome = explode(' ', trim($nomeCompleto))[0];
 $inicialNome = !empty($primeiroNome) ? strtoupper(substr($primeiroNome, 0, 1)) : "U";
 
-// 🔍 BUSCA APENAS OS PEDIDOS ATIVOS (Pendente ou Confirmado) para esta tela
+// BUSCA APENAS OS PEDIDOS ATIVOS (Pendente ou Confirmado) para esta tela
 $query_pedidos = "SELECT * FROM pedidos WHERE cliente_id = $usuarioId AND status IN ('Pendente', 'Confirmado') ORDER BY id DESC";
 $resultado_pedidos = mysqli_query($conexao, $query_pedidos);
 $total_pedidos_ativos = 0;
@@ -67,14 +68,13 @@ if ($resultado_pedidos) {
     $total_pedidos_ativos = mysqli_num_rows($resultado_pedidos);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Oliver'CelL</title>
-    <link class="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../Css/perfil.css">
     <style>

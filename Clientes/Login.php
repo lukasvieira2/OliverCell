@@ -1,3 +1,7 @@
+<?php
+session_start();
+// Removido o redirecionamento automático para você conseguir testar a tela livremente!
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -37,6 +41,23 @@
         </div>
 
         <div class="form-side">
+
+            <?php if (isset($_GET['erro'])): ?>
+                <div style="background: #ff4444; color: #fff; padding: 10px; border-radius: 4px; margin-bottom: 15px; text-align: center; font-size: 0.9rem; font-weight: bold;">
+                    <?php 
+                        if ($_GET['erro'] == 'dados_invalidos') echo "E-mail ou senha incorretos.";
+                        elseif ($_GET['erro'] == 'email_existente') echo "Este e-mail já está cadastrado.";
+                        else echo "Ocorreu um erro. Tente novamente.";
+                    ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'cadastrado'): ?>
+                <div style="background: #00c851; color: #fff; padding: 10px; border-radius: 4px; margin-bottom: 15px; text-align: center; font-size: 0.9rem; font-weight: bold;">
+                    Cadastro realizado com sucesso! Faça seu login.
+                </div>
+            <?php endif; ?>
+
             <div id="login-section">
                 <h2 class="form-title">Entrar</h2>
                 <p class="form-subtitle">ÁREA DO CLIENTE</p>
@@ -75,7 +96,7 @@
 </footer>
 
 <script>
-   function toggleForm(mode) {
+function toggleForm(mode) {
     const loginSection = document.getElementById('login-section');
     const signupSection = document.getElementById('signup-section');
     const infoLogin = document.getElementById('info-login');

@@ -25,17 +25,17 @@
                     <li><a href="../cliente.html">Início</a></li>
                     <li><a href="servicos.html">Serviços</a></li>
                     <li><a href="contato.html">Contato</a></li>
-                     <li>
-                    <a href="../Perfil.php" class="btn-login">
-                        <i class="fas fa-user-circle"></i> PERFIL
-                    </a>
-                </li>
+                    <li>
+                        <a href="../Perfil.php" class="btn-login">
+                            <i class="fas fa-user-circle"></i> PERFIL
+                        </a>
+                    </li>
                     <li>
                         <a href="../carrinho.php" style="position: relative;">
                             <i class="fas fa-shopping-cart" style="color: #ffcc00; font-size: 18px;"></i>
                             <span id="cart-count" style="position: absolute; top: -10px; right: -12px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold;">0</span>
                         </a>
-                    </td>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -229,6 +229,7 @@
             alert(`${nomeProduto} foi adicionado ao seu carrinho!`);
         }
 
+        // Inicializa o contador de itens ao carregar a página
         atualizarContador();
     </script>
 </body>

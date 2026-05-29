@@ -7,23 +7,23 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
-// Inclusão da conexão com o banco
+// Inclusão da conexão com o banco (Voltando um nível para achar a raiz onde fica o config.php)
 include_once('../config.php');
 
 // ==========================================================================
 // CONFIGURAÇÃO DA PAGINAÇÃO (Mostrar até 10 usuários por tela)
 // ==========================================================================
-$limite = 10; // Limite de 10 usuários por tela
+$limite = 10; 
 $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 if ($pagina_atual < 1) $pagina_atual = 1;
 $offset = ($pagina_atual - 1) * $limite;
 
-// Query para contar o total de usuários cadastrados (essencial para o rodapé)
+// Query para contar o total de usuários cadastrados
 $total_usuarios = 0;
 $query_total = "SELECT COUNT(id) AS total FROM usuarios";
 if ($res_total = mysqli_query($conexao, $query_total)) {
     $row_total = mysqli_fetch_assoc($res_total);
-    $total_usuarios = $row_total['total'];
+    $total_usuarios = (int)$row_total['total'];
 }
 $total_paginas = ceil($total_usuarios / $limite);
 
@@ -58,20 +58,19 @@ try {
             </div>
             <nav class="flex-1 px-4 py-6 space-y-2">
                 <a href="#" class="flex items-center py-2.5 px-4 rounded nav-link-active">
-                    <i class="fas fa-home mr-3"></i> Usuários
+                    <i class="fas fa-user mr-3"></i> Usuários
                 </a>
-                <a href="pagADM/servicos.html.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
-                   <i class="fas fa-home mr-3"></i> Serviços
+                <a href="pagADM/servicos.html" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
+                   <i class="fas fa-tools mr-3"></i> Serviços
                 </a>
-                </a>
-                <a href="pagADM/produto.html.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
+                <a href="pagADM/produto.html" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                     <i class="fas fa-box mr-3"></i> Produtos
                 </a>
                 <a href="pagADM/orcamento.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                     <i class="fas fa-chart-line mr-3"></i> Orçamento
                 </a>
                 <a href="pagADM/pedidos.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
-                    <i class="fas fa-cog mr-3"></i> Pedidos
+                    <i class="fas fa-shopping-basket mr-3"></i> Pedidos
                 </a>
             </nav>
             <div class="p-4 border-t border-zinc-900">
@@ -142,6 +141,7 @@ try {
                                     <th class="px-6 py-4">Data de Cadastro</th>
                                     <th class="px-6 py-4 text-center">Ações</th>
                                 </tr>
+                            </table>
                             </thead>
                             <tbody class="table-body-white text-sm">
                                 <?php
@@ -163,7 +163,7 @@ try {
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 text-center space-x-3 text-zinc-500">
-                                                <a href="editar_usuario.php?id=<?php echo $usuario['id']; ?>" class="hover:text-amber-600 transition-colors"><i class="fas fa-edit"></i></a>
+                                                <a href="pagADM/editar_usuario.php?id=<?php echo $usuario['id']; ?>" class="hover:text-amber-600 transition-colors"><i class="fas fa-edit"></i></a>
                                                 <a href="../Php/deletar_usuario.php?id=<?php echo $usuario['id']; ?>" class="hover:text-red-600 transition-colors" onclick="return confirm('Deseja realmente excluir o usuário <?php echo htmlspecialchars($usuario['nome']); ?>?')"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
