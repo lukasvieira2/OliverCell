@@ -34,7 +34,6 @@
         <div class="banner-content">
             <h1>OLIVER'CELL</h1>
             <p style="color: #ffcc00; font-weight: bold;">ASSISTÊNCIA TÉCNICA E ACESSÓRIOS</p>
-            <a href="Pag/orcamento.php" class="btn-solicitar">SOLICITAR ORÇAMENTO</a>
         </div>
     </section>
 </main>
