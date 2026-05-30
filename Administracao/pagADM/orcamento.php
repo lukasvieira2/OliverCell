@@ -29,6 +29,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar_status'])) 
 }
 
 // ==========================================================================
+// PROCESSAMENTO ASSÍNCRONO (AJAX): Exclusão permanente do orçamento
+// ==========================================================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletar_orcamento'])) {
+    $id = (int)$_POST['id'];
+
+    $query_delete = "DELETE FROM orcamentos WHERE id = $id";
+    if (mysqli_query($conexao, $query_delete)) {
+        echo json_encode(['status' => 'sucesso']);
+    } else {
+        echo json_encode(['status' => 'erro', 'detalhes' => mysqli_error($conexao)]);
+    }
+    exit();
+}
+
+// ==========================================================================
 // CONFIGURAÇÃO DA PAGINAÇÃO
 // ==========================================================================
 $limite = 10; 
@@ -149,12 +164,13 @@ try {
                                     <th class="px-6 py-4">Defeito Solicitado (Pergunta)</th>
                                     <th class="px-6 py-4">Data de Envio</th>
                                     <th class="px-6 py-4 text-center">Status do Reparo</th>
+                                    <th class="px-6 py-4 text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody class="table-body-white text-sm">
                                 <?php
                                 if ($erro_tabela) {
-                                    echo '<tr><td colspan="6" class="px-6 py-8 text-center text-red-600 font-medium bg-white">
+                                    echo '<tr><td colspan="7" class="px-6 py-8 text-center text-red-600 font-medium bg-white">
                                             <i class="fas fa-exclamation-triangle mr-2"></i> Erro ao carregar os dados do banco de dados.<br>
                                           </td></tr>';
                                 } elseif ($resultado_orcamentos && mysqli_num_rows($resultado_orcamentos) > 0) {
@@ -162,7 +178,7 @@ try {
                                         $data_formatada = !empty($orcamento['data_solicitacao']) ? date('d/m/Y H:i', strtotime($orcamento['data_solicitacao'])) : 'Não informada';
                                         $status_atual = !empty($orcamento['status']) ? $orcamento['status'] : 'Pendente';
                                         ?>
-                                        <tr class="table-row-oliver">
+                                        <tr class="table-row-oliver transition-all duration-300" id="linha-orcamento-<?php echo $orcamento['id']; ?>">
                                             <td class="px-6 py-4 text-id-gold font-bold">#<?php echo $orcamento['id']; ?></td>
                                             <td class="px-6 py-4 text-cliente-dark font-medium"><?php echo htmlspecialchars($orcamento['nome']); ?></td>
                                             <td class="px-6 py-4 text-zinc-700"><?php echo htmlspecialchars($orcamento['modelo']); ?></td>
@@ -186,11 +202,16 @@ try {
                                                     <option value="Concluído" <?php if($status_atual == 'Concluído') echo 'selected'; ?>>🟢 Concluído</option>
                                                 </select>
                                             </td>
+                                            <td class="px-6 py-4 text-center">
+                                                <button onclick="deletarOrcamentoNoBanco(<?php echo $orcamento['id']; ?>, '<?php echo addslashes($orcamento['nome']); ?>')" class="bg-red-600 hover:bg-red-700 text-white rounded p-1.5 transition-colors shadow-sm" title="Excluir Orçamento Permanentemente">
+                                                    <i class="fas fa-trash-alt text-xs"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
                                 } else {
-                                    echo '<tr><td colspan="6" class="px-6 py-8 text-center text-zinc-400 bg-white">Nenhum pedido de orçamento encontrado.</td></tr>';
+                                    echo '<tr><td colspan="7" class="px-6 py-8 text-center text-zinc-400 bg-white">Nenhum pedido de orçamento encontrado.</td></tr>';
                                 }
                                 ?>
                             </tbody>
@@ -224,6 +245,7 @@ try {
     </div>
 
     <script>
+    // Função existente de alteração de status
     function atualizarStatusNoBanco(idOrcamento, elementoSelect) {
         const valorSelecionado = elementoSelect.value;
         const dadosForm = new FormData();
@@ -254,6 +276,42 @@ try {
         .catch(erro => {
             console.error('Erro:', erro);
             alert('Não foi possível conectar ao banco de dados.');
+        });
+    }
+
+    // NOVA FUNÇÃO: Exclusão assíncrona com animação visual de fade-out
+    function deletarOrcamentoNoBanco(idOrcamento, nomeCliente) {
+        if (!confirm(`Deseja realmente EXCLUIR PERMANENTEMENTE o orçamento de "${nomeCliente}"?\nEsta ação não poderá ser desfeita!`)) {
+            return; // Aborta a operação caso o usuário clique em Cancelar
+        }
+
+        const dadosForm = new FormData();
+        dadosForm.append('deletar_orcamento', '1');
+        dadosForm.append('id', idOrcamento);
+
+        fetch(window.location.href, {
+            method: 'POST',
+            body: dadosForm
+        })
+        .then(resposta => resposta.json())
+        .then(dados => {
+            if (dados.status === 'sucesso') {
+                const linha = document.getElementById(`linha-orcamento-${idOrcamento}`);
+                if (linha) {
+                    // Aplica efeitos visuais de fade-out antes de sumir por completo
+                    linha.style.opacity = '0';
+                    linha.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        linha.remove();
+                    }, 300);
+                }
+            } else {
+                alert('Erro ao excluir do banco de dados: ' + dados.detalhes);
+            }
+        })
+        .catch(erro => {
+            console.error('Erro:', erro);
+            alert('Falha na comunicação com o servidor.');
         });
     }
     </script>

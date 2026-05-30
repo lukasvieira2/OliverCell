@@ -108,7 +108,7 @@ if (!empty($emailUsuario)) {
                     <div class="cart-empty" style="text-align: center; padding: 40px 20px;">
                         <i class="fas fa-shopping-basket" style="font-size: 3rem; color: #ffcc00; margin-bottom: 15px;"></i>
                         <p style="font-size: 1.2rem; color: #aaa; margin-bottom: 20px;">Seu carrinho está vazio.</p>
-                        <a href="Pag-php/acessorios.html" class="btn-back" style="display: inline-block; background: #ffcc00; color: #000; padding: 10px 20px; font-weight: bold; text-decoration: none; border-radius: 5px;">Ver Acessórios</a>
+                        <a href="Pag-php/acessorios.php" class="btn-back" style="display: inline-block; background: #ffcc00; color: #000; padding: 10px 20px; font-weight: bold; text-decoration: none; border-radius: 5px;">Ver Acessórios</a>
                     </div>
                 `;
                 resumoBox.style.display = "none";

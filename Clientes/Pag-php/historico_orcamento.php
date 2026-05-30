@@ -117,7 +117,7 @@ if ($resultado_historico) {
             
             <a href="../cliente.html" class="side-link"><i class="fas fa-home"></i> Painel Inicial</a>
             <a href="../Perfil.php" class="side-link"><i class="fas fa-user"></i> Meu Perfil / Ativos</a>
-            <a href="orcamento.php" class="side-link active" style="color: #ffcc00;"><i class="fas fa-tools"></i> Histórico orçamento </a>
+            <a href="historico_orcamento.php" class="side-link active" style="color: #ffcc00;"><i class="fas fa-tools"></i> Histórico orçamento </a>
             <a href="pedidos.php" class="side-link"><i class="fas fa-history"></i> Histórico de Pedidos</a>
             <a href="../logout.php" class="side-link logout" style="color: #ff4444;"><i class="fas fa-sign-out-alt"></i> Sair</a>
         </div>

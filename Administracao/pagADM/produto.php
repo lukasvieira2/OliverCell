@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
-// Inclusão da conexão com o banco (Voltando duas pastas para achar a raiz onde fica o config.php)
+// Inclusão da conexão com o banco
 include_once('../../config.php');
 
 // ==========================================================================
@@ -23,6 +23,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar_estoque']))
         header("Location: produto.php?status=sucesso");
     } else {
         header("Location: produto.php?status=erro");
+    }
+    exit();
+}
+
+// ==========================================================================
+// PROCESSAMENTO: EXCLUSÃO PERMANENTE DO PRODUTO do Banco de Dados
+// ==========================================================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletar_produto'])) {
+    $id_produto = (int)$_POST['id_produto'];
+
+    $sql_delete = "DELETE FROM produtos WHERE id = $id_produto";
+    if (mysqli_query($conexao, $sql_delete)) {
+        header("Location: produto.php?status=deletado");
+    } else {
+        header("Location: produto.php?status=erro_deletar");
     }
     exit();
 }
@@ -44,8 +59,8 @@ if ($res_total = mysqli_query($conexao, $query_total)) {
 }
 $total_paginas = ceil($total_produtos / $limite);
 
-// QUERY: Busca os registros de produtos respeitando a paginação
-$query_produtos = "SELECT id, nome, preco, estoque FROM produtos ORDER BY id DESC LIMIT $limite OFFSET $offset";
+// QUERY: Busca os registros de produtos incluindo a coluna imagem
+$query_produtos = "SELECT id, nome, preco, estoque, imagem FROM produtos ORDER BY id DESC LIMIT $limite OFFSET $offset";
 
 try {
     $resultado_produtos = mysqli_query($conexao, $query_produtos);
@@ -109,15 +124,20 @@ try {
 
             <div class="p-8">
                
-                <?php if (isset($_GET['status']) && $_GET['status'] == 'sucesso'): ?>
-                    <div class="mb-4 p-4 bg-green-900/40 border border-green-500/50 text-green-300 rounded-lg text-sm flex items-center gap-2">
-                        <i class="fas fa-check-circle"></i> Quantidade em estoque atualizada com sucesso!
-                    </div>
-                <?php endif; ?>
-                <?php if (isset($_GET['status']) && $_GET['status'] == 'erro'): ?>
-                    <div class="mb-4 p-4 bg-red-900/40 border border-red-500/50 text-red-300 rounded-lg text-sm flex items-center gap-2">
-                        <i class="fas fa-exclamation-circle"></i> Erro ao tentar alterar o estoque no sistema.
-                    </div>
+                <?php if (isset($_GET['status'])): ?>
+                    <?php if ($_GET['status'] == 'sucesso'): ?>
+                        <div class="mb-4 p-4 bg-green-900/40 border border-green-500/50 text-green-300 rounded-lg text-sm flex items-center gap-2">
+                            <i class="fas fa-check-circle"></i> Quantidade em estoque atualizada com sucesso!
+                        </div>
+                    <?php elseif ($_GET['status'] == 'deletado'): ?>
+                        <div class="mb-4 p-4 bg-red-900/40 border border-red-500/50 text-red-300 rounded-lg text-sm flex items-center gap-2">
+                            <i class="fas fa-trash-alt"></i> Produto removido permanentemente do catálogo.
+                        </div>
+                    <?php elseif ($_GET['status'] == 'erro_deletar' || $_GET['status'] == 'erro'): ?>
+                        <div class="mb-4 p-4 bg-orange-900/40 border border-orange-500/50 text-orange-300 rounded-lg text-sm flex items-center gap-2">
+                            <i class="fas fa-exclamation-triangle"></i> Falha ao executar a operação técnica no banco de dados.
+                        </div>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <div class="rounded-xl overflow-hidden shadow-2xl border border-zinc-800 bg-zinc-950">
@@ -130,37 +150,62 @@ try {
                             <thead>
                                 <tr class="bg-zinc-800 text-zinc-200 text-xs uppercase font-semibold border-b border-zinc-700">
                                     <th class="px-6 py-4">ID</th>
+                                    <th class="px-6 py-4">Imagem</th>
                                     <th class="px-6 py-4">Produto</th>
                                     <th class="px-6 py-4">Preço</th>
                                     <th class="px-6 py-4">Qtd Restante</th>
                                     <th class="px-6 py-4 text-center">Situação do Estoque</th>
-                                    <th class="px-6 py-4 text-center">Ações Rápidas</th>
+                                    <th class="px-6 py-4 text-center">Ações Gerenciais</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-zinc-800 text-sm bg-zinc-900">
                                 <?php
                                 if ($erro_tabela) {
-                                    echo '<tr><td colspan="6" class="px-6 py-8 text-center text-red-400 font-medium bg-zinc-900">
-                                            <i class="fas fa-exclamation-triangle mr-2"></i> Erro ao carregar os produtos do banco de dados.<br>
+                                    echo '<tr><td colspan="7" class="px-6 py-8 text-center text-red-400 font-medium bg-zinc-900">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i> Erro ao carregar os produtos do banco de dados.
                                           </td></tr>';
                                 } elseif ($resultado_produtos && mysqli_num_rows($resultado_produtos) > 0) {
                                     while ($produto = mysqli_fetch_assoc($resultado_produtos)) {
                                         $estoque = (int)$produto['estoque'];
                                         
-                                        // Regra visual de Alerta de Estoque
+                                        $imagemBanco = trim($produto['imagem']);
+                                        $caminhoFinal = '../../imagens/logo.png'; 
+
+                                        if (!empty($imagemBanco)) {
+                                            if (strpos($imagemBanco, '/') === false && strpos($imagemBanco, '\\') === false) {
+                                                $caminhoFinal = '../../imagens/' . $imagemBanco;
+                                            }
+                                            elseif (strpos($imagemBanco, '../../') === 0) {
+                                                $caminhoFinal = $imagemBanco;
+                                            }
+                                            elseif (strpos($imagemBanco, '/OliverCell/') === 0) {
+                                                $caminhoFinal = str_replace('/OliverCell/', '../../', $imagemBanco);
+                                            }
+                                            elseif (strpos($imagemBanco, 'imagens/') === 0) {
+                                                $caminhoFinal = '../../' . $imagemBanco;
+                                            }
+                                        }
+
                                         if ($estoque === 0) {
                                             $badge_color = "bg-red-950 border-red-700 text-red-400";
                                             $badge_text = "❌ ESGOTADO / ZERADO";
                                         } elseif ($estoque <= 3) {
                                             $badge_color = "bg-amber-950 border-amber-700 text-amber-400";
-                                            $badge_text = "⚠️ CRÍTICO (Restam apenas " . $estoque . ")";
+                                            $badge_text = "⚠️ CRÍTICO (Restam " . $estoque . ")";
                                         } else {
                                             $badge_color = "bg-green-950 border-green-700 text-green-400";
-                                            $badge_text = "✅ Seguro (" . $estoque . " unidades)";
+                                            $badge_text = "✅ Seguro (" . $estoque . " un.)";
                                         }
                                         ?>
                                         <tr class="hover:bg-zinc-800/50 transition-colors border-b border-zinc-800">
                                             <td class="px-6 py-4 text-amber-500 font-bold">#<?php echo $produto['id']; ?></td>
+                                            
+                                            <td class="px-6 py-2">
+                                                <div class="w-12 h-12 rounded overflow-hidden border border-zinc-700 bg-zinc-950 flex items-center justify-center">
+                                                    <img src="<?php echo $caminhoFinal; ?>" alt="Foto do Produto" class="w-full h-full object-cover" onerror="this.src='../../imagens/logo.png';">
+                                                </div>
+                                            </td>
+
                                             <td class="px-6 py-4 font-semibold text-zinc-100"><?php echo htmlspecialchars($produto['nome']); ?></td>
                                             <td class="px-6 py-4 text-zinc-300">R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></td>
                                             <td class="px-6 py-4 font-bold text-zinc-100"><?php echo $estoque; ?> un.</td>
@@ -169,20 +214,30 @@ try {
                                                     <?php echo $badge_text; ?>
                                                 </span>
                                             </td>
+                                            
                                             <td class="px-6 py-4 text-center">
-                                                <form method="POST" action="produto.php" class="flex items-center justify-center gap-2">
-                                                    <input type="hidden" name="id_produto" value="<?php echo $produto['id']; ?>">
-                                                    <input type="number" name="quantidade_estoque" value="<?php echo $estoque; ?>" min="0" class="w-16 text-center border border-zinc-700 rounded px-1.5 py-1 text-sm bg-zinc-950 text-white font-semibold focus:outline-none focus:border-amber-500">
-                                                    <button type="submit" name="atualizar_estoque" class="bg-emerald-600 hover:bg-emerald-700 text-white rounded p-1.5 transition-colors" title="Salvar Estoque">
-                                                        <i class="fas fa-save text-xs"></i>
-                                                    </button>
-                                                </form>
+                                                <div class="flex items-center justify-center gap-4">
+                                                    <form method="POST" action="produto.php" class="flex items-center gap-2">
+                                                        <input type="hidden" name="id_produto" value="<?php echo $produto['id']; ?>">
+                                                        <input type="number" name="quantidade_estoque" value="<?php echo $estoque; ?>" min="0" class="w-16 text-center border border-zinc-700 rounded px-1.5 py-1 text-sm bg-zinc-950 text-white font-semibold focus:outline-none focus:border-amber-500">
+                                                        <button type="submit" name="atualizar_estoque" title="Salvar Estoque" class="bg-emerald-600 hover:bg-emerald-700 text-white rounded p-1.5 transition-colors">
+                                                            <i class="fas fa-save text-xs"></i>
+                                                        </button>
+                                                    </form>
+
+                                                    <form method="POST" action="produto.php" onsubmit="return confirm('Deseja realmente EXCLUIR PERMANENTEMENTE o produto \'<?php echo addslashes($produto['nome']); ?>\' do sistema? Esta ação não pode ser desfeita!');">
+                                                        <input type="hidden" name="id_produto" value="<?php echo $produto['id']; ?>">
+                                                        <button type="submit" name="deletar_produto" title="Excluir Produto Permanentemente" class="bg-red-600 hover:bg-red-700 text-white rounded p-1.5 transition-colors">
+                                                            <i class="fas fa-trash-alt text-xs"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </td>
                                         </tr>
                                         <?php
                                     }
                                 } else {
-                                    echo '<tr><td colspan="6" class="px-6 py-8 text-center text-zinc-500 bg-zinc-900">Nenhum acessório encontrado no banco de dados. Certifique-se de popular a tabela.</td></tr>';
+                                    echo '<tr><td colspan="7" class="px-6 py-8 text-center text-zinc-500 bg-zinc-900">Nenhum acessório encontrado.</td></tr>';
                                 }
                                 ?>
                             </tbody>
@@ -192,7 +247,7 @@ try {
                     <?php if ($total_paginas > 1): ?>
                         <div class="px-6 py-4 bg-zinc-950 border-t border-zinc-800 flex items-center justify-between">
                             <div class="text-xs text-zinc-400 font-medium">
-                                Página <?php echo $pagina_atual; ?> de <?php echo $total_paginas; ?> (Total: <?php echo $total_produtos; ?> produtos)
+                                Página <?php echo $pagina_atual; ?> de <?php echo $total_paginas; ?>
                             </div>
                             <div class="flex items-center space-x-2">
                                 <?php if ($pagina_atual > 1): ?>

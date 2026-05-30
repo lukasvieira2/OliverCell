@@ -169,7 +169,7 @@ if ($resultado_pedidos) {
             <hr class="divider">
             
             <a href="cliente.html" class="side-link"><i class="fas fa-home"></i> Painel Inicial</a>
-            <a href="Pag-php/orcamento.php" class="side-link"><i class="fas fa-tools"></i> Novo Orçamento</a>
+            <a href="Pag-php/historico_orcamento.php" class="side-link"><i class="fas fa-tools"></i> Histórico orçamento </a>
             <a href="Pag-php/pedidos.php" class="side-link"><i class="fas fa-history"></i> Histórico de Pedidos</a>
             <a href="trocar_senha.php" class="side-link"><i class="fas fa-key"></i> Alterar Senha</a>
             <a href="logout.php" class="side-link logout" style="color: #ff4444;"><i class="fas fa-sign-out-alt"></i> Sair</a>
@@ -241,7 +241,7 @@ if ($resultado_pedidos) {
                 <?php endif; ?>
             </div>
 
-            <button onclick="window.location.href='cliente.html'" class="btn-voltar" style="margin-top: 25px;">VOLTAR PARA A LOJA</button>
+            <button onclick="window.history.length > 1 ? window.history.back() : window.location.href='cliente.html';" class="btn-voltar" style="margin-top: 25px;">VOLTAR PARA A LOJA</button>
         </div>
     </div>
 </main>
