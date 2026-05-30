@@ -81,7 +81,7 @@ try {
                 <a href="servicos.html" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                    <i class="fas fa-tools mr-3"></i> Serviços
                 </a>
-                <a href="produto.html" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
+                <a href="produto.php" class="flex items-center py-2.5 px-4 rounded nav-link-oliver">
                     <i class="fas fa-box mr-3"></i> Produtos
                 </a>
                 <a href="orcamento.php" class="flex items-center py-2.5 px-4 rounded nav-link-active">

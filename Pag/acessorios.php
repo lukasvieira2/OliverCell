@@ -14,8 +14,8 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link rel="stylesheet" href="../css/acessorios.css?v=5">
-    <link rel="stylesheet" href="../css/header.css?v=5">
+    <link rel="stylesheet" href="../css/acessorios.css?v=3">
+    <link rel="stylesheet" href="../css/header.css?v=3">
 </head>
 <body>
 
@@ -29,7 +29,8 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
             <nav class="nav-principal">
                 <ul class="menu-main">
                     <li><a href="../index.php">Início</a></li>
-                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="servico.php">Serviços</a></li>
+                    <li><a href="orcamento.php">Orçamento</a></li>
                     <li><a href="contato.html">Contato</a></li>
                     <li>
                         <a href="../carrinho.php" style="position: relative; display: inline-flex; align-items: center;">
@@ -58,7 +59,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>CABO TIPO-C PREMIUM</h3>
                     <p>Cabo de alta velocidade e durabilidade Masterdrive para conexões Tipo-C.</p>
                     <p class="preco">R$ 15,00</p>
-                    <button onclick="verificarAcesso('CABO TIPO-C PREMIUM')">
+                    <button onclick="adicionarAoCarrinho('CABO TIPO-C PREMIUM')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -70,7 +71,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>CABO LIGHTNING IPHONE</h3>
                     <p>Cabo Masterdrive premium ideal para carga rápida e segura no seu iPhone.</p>
                     <p class="preco">R$ 15,00</p>
-                    <button onclick="verificarAcesso('CABO LIGHTNING IPHONE')">
+                    <button onclick="adicionarAoCarrinho('CABO LIGHTNING IPHONE')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -82,7 +83,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>FONE ESTÉREO BRANCO</h3>
                     <p>Som Premium balanceado com super bass da Alpha Gold na cor branca.</p>
                     <p class="preco">R$ 15,00</p>
-                    <button onclick="verificarAcesso('FONE ESTÉREO BRANCO')">
+                    <button onclick="adicionarAoCarrinho('FONE ESTÉREO BRANCO')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -94,7 +95,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>FONE ESTÉREO PRETO</h3>
                     <p>Fone Alpha Gold de ouvido estéreo com excelente isolamento e graves profundos.</p>
                     <p class="preco">R$ 15,00</p>
-                    <button onclick="verificarAcesso('FONE ESTÉREO PRETO')">
+                    <button onclick="adicionarAoCarrinho('FONE ESTÉREO PRETO')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -106,7 +107,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>SUPORTE VEICULAR 360°</h3>
                     <p>Suporte Peining articulado com rotação completa para fixação estável no painel.</p>
                     <p class="preco">R$ 40,00</p>
-                    <button onclick="verificarAcesso('SUPORTE VEICULAR 360°')">
+                    <button onclick="adicionarAoCarrinho('SUPORTE VEICULAR 360°')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -118,7 +119,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>CARREGADOR INOVA CA41</h3>
                     <p>Carregador rápido e seguro de alta performance para o dia a dia.</p>
                     <p class="preco">R$ 20,00</p>
-                    <button onclick="verificarAcesso('CARREGADOR INOVA CA41')">
+                    <button onclick="adicionarAoCarrinho('CARREGADOR INOVA CA41')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -130,7 +131,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>FONE BLUETOOTH TWS</h3>
                     <p>Fone de ouvido sem fio de alta fidelidade com excelente autonomia de bateria.</p>
                     <p class="preco">R$ 40,00</p>
-                    <button onclick="verificarAcesso('FONE BLUETOOTH TWS')">
+                    <button onclick="adicionarAoCarrinho('FONE BLUETOOTH TWS')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -142,7 +143,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>CABO PEINING 3 EM 1</h3>
                     <p>Cabo multi-conector ultra resistente ideal para carregar múltiplos dispositivos.</p>
                     <p class="preco">R$ 40,00</p>
-                    <button onclick="verificarAcesso('CABO PEINING 3 EM 1')">
+                    <button onclick="adicionarAoCarrinho('CABO PEINING 3 EM 1')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -154,7 +155,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>CARREGADOR TURBO RÁPIDO</h3>
                     <p>Fonte de alta amperagem desenvolvida para carregamento inteligente e estável.</p>
                     <p class="preco">R$ 40,00</p>
-                    <button onclick="verificarAcesso('CARREGADOR TURBO RÁPIDO')">
+                    <button onclick="adicionarAoCarrinho('CARREGADOR TURBO RÁPIDO')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -166,7 +167,7 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
                     <h3>FONTE USB-C 20W PREMIUM</h3>
                     <p>Adaptador de tomada turbo de 20W perfeito para carregamento rápido de iPhones.</p>
                     <p class="preco">R$ 30,00</p>
-                    <button onclick="verificarAcesso('FONTE USB-C 20W PREMIUM')">
+                    <button onclick="adicionarAoCarrinho('FONTE USB-C 20W PREMIUM')">
                         Adicionar ao carrinho
                     </button>
                 </div>
@@ -184,6 +185,9 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
     </a>
 
     <script>
+    // Injeta o valor do PHP direto como um booleano real no JavaScript
+    const usuarioEstaLogado = <?php echo $usuarioLogado ? 'true' : 'false'; ?>;
+
     function obterCarrinho() {
         return JSON.parse(localStorage.getItem('oliver_cart')) || [];
     }
@@ -197,54 +201,51 @@ $usuarioLogado = (isset($_SESSION['usuario_email']) && !empty($_SESSION['usuario
         }
     }
 
-    // Função de checagem corrigida: Injeta o comportamento do alerta sem quebras
-   // Injeta o valor do PHP como um booleano real (true ou false) no JavaScript
-const usuarioEstaLogado = <?php echo $usuarioLogado ? 'true' : 'false'; ?>;
+    function adicionarAoCarrinho(nomeProduto) {
+        console.log("Status atual do login capturado:", usuarioEstaLogado);
 
-function verificarAcesso(nomeProduto) {
-    // Se o booleano for falso, barra na hora e mostra o alerta
-    if (!usuarioEstaLogado) {
-        alert("Para adicionar produtos ao carrinho e garantir os seus acessórios, você precisa fazer o login ou criar o seu cadastro primeiro!");
-        window.location.href = window.location.origin + "/OliverCell/Clientes/Login.php";
-        return; // Para a execução aqui
-    }
-
-    // Se estiver logado, continua para a função de adicionar
-    executarAdicaoCarrinho(nomeProduto);
-}
-
-function ejecutarAdicaoCarrinho(nomeProduto) {
-    let carrinho = obterCarrinho();
-    let produtoExistente = carrinho.find(item => item.nome.toUpperCase() === nomeProduto.toUpperCase());
-
-    let precoProduto = 0;
-    let imagemProduto = "";
-    
-    const cards = document.querySelectorAll('.card-produto');
-    cards.forEach(card => {
-        const titulo = card.querySelector('h3').innerText.trim();
-        if(titulo.toUpperCase() === nomeProduto.toUpperCase()) {
-            const precoTexto = card.querySelector('.preco').innerText;
-            precoProduto = parseFloat(precoTexto.replace('R$', '').replace(/\./g, '').replace(',', '.').trim()) || 0;
-            imagemProduto = card.querySelector('.img-container img').getAttribute('src');
+        // 🚨 BLOQUEIO OBRIGATÓRIO (Se não estiver logado, redireciona o cliente)
+        if (usuarioEstaLogado === false || usuarioEstaLogado === "false") {
+            alert("Você tem que fazer o login obrigatório para adicionar itens ao carrinho!");
+            window.location.href = window.location.origin + "/OliverCell/Clientes/Login.php";
+            return; 
         }
-    });
 
-    if(produtoExistente) {
-        produtoExistente.qtd += 1;
-    } else {
-        carrinho.push({ 
-            nome: nomeProduto, 
-            qtd: 1, 
-            preco: precoProduto, 
-            imagem: imagemProduto 
+        // Fluxo normal de adição
+        let carrinho = obterCarrinho();
+        let produtoExistente = carrinho.find(item => item.nome.toUpperCase() === nomeProduto.toUpperCase());
+
+        let precoProduto = 0;
+        let imagemProduto = "";
+        
+        const cards = document.querySelectorAll('.card-produto');
+        cards.forEach(card => {
+            const titulo = card.querySelector('h3').innerText.trim();
+            if(titulo.toUpperCase() === nomeProduto.toUpperCase()) {
+                const precoTexto = card.querySelector('.preco').innerText;
+                precoProduto = parseFloat(precoTexto.replace('R$', '').replace(/\./g, '').replace(',', '.').trim()) || 0;
+                imagemProduto = card.querySelector('.img-container img').getAttribute('src');
+            }
         });
+
+        if(produtoExistente) {
+            produtoExistente.qtd += 1;
+        } else {
+            carrinho.push({ 
+                nome: nomeProduto, 
+                qtd: 1, 
+                preco: precoProduto, 
+                imagem: imagemProduto 
+            });
+        }
+
+        localStorage.setItem('oliver_cart', JSON.stringify(carrinho));
+        atualizarContador();
+        alert(`${nomeProduto} foi adicionado ao seu carrinho!`);
     }
 
-    localStorage.setItem('oliver_cart', JSON.stringify(carrinho));
-    atualizarContador();
-    alert(`${nomeProduto} foi adicionado ao seu carrinho!`);
-}
+    // Inicializa o contador de itens ao carregar a página
+    document.addEventListener("DOMContentLoaded", atualizarContador);
     </script>
 </body>
 </html>
